@@ -32,3 +32,8 @@ void ANPC_Boss::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+UBehaviorTree* ANPC_Boss::GetBehaviorTree()
+{
+		return Tree;
+}
+
