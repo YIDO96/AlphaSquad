@@ -46,5 +46,6 @@ EBTNodeResult::Type UBTTask_FindRandomLocation_Boss::ExecuteTask(UBehaviorTreeCo
 	}
     
 	// 실패 시 부모 클래스의 기본 Task 실행 결과를 반환
-	return Super::ExecuteTask(OwnerComp, NodeMemory);
+	//return Super::ExecuteTask(OwnerComp, NodeMemory);
+	return EBTNodeResult::Failed;
 }

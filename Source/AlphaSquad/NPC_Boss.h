@@ -21,7 +21,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	// BehaviorTree 선언
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AI, meta = (AllowPrivateAccess = "true"))
 	UBehaviorTree* Tree;
 	
 public:	
