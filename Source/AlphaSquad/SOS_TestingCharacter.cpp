@@ -113,7 +113,7 @@ void ASOS_TestingCharacter::Boss_Lookup(const FInputActionValue& Value)
 	const float _CurrentValue = Value.Get<float>();
 	// 카메라의 Pitch 값을 변경하여 위아래 시점 이동을 수행합니다.
 	AddControllerPitchInput(_CurrentValue);
-	UE_LOG(LogTemp, Warning, TEXT("FUCK"));
+	//UE_LOG(LogTemp, Warning, TEXT("Lookup input test"));
 	
 }
 

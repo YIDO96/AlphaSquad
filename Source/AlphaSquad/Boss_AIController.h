@@ -15,5 +15,6 @@ class ALPHASQUAD_API ABoss_AIController : public AAIController
 	GENERATED_BODY()
 public:
 	explicit ABoss_AIController(FObjectInitializer const& ObjectInitializer);
-	
+protected:
+	virtual void OnPossess(APawn* InPawn) override;
 };
