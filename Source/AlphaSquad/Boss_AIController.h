@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Perception/AIPerceptionTypes.h"
 #include "Boss_AIController.generated.h"
 
 /**
@@ -17,4 +18,14 @@ public:
 	explicit ABoss_AIController(FObjectInitializer const& ObjectInitializer);
 protected:
 	virtual void OnPossess(APawn* InPawn) override;
+
+	private:
+		class UAISenseConfig_Sight* SightConfig;
+	
+	void SetupPerceptionSystem();
+
+	UFUNCTION()
+	void OnTargetDetected(AActor* Actor, FAIStimulus const Stimulus);
+	
+	
 };
