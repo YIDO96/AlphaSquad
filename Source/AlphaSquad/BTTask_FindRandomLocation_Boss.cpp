@@ -36,6 +36,8 @@ EBTNodeResult::Type UBTTask_FindRandomLocation_Boss::ExecuteTask(UBehaviorTreeCo
 				{
 					// 찾은 위치를 블랙보드에 저장하여 Behavior Tree에서 사용 가능하게 함
 					OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), Loc.Location);
+					FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
+					return EBTNodeResult::Succeeded;
 				}
 
 				// Task 성공으로 마침

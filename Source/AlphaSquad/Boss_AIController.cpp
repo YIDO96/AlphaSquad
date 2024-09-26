@@ -87,6 +87,7 @@ void ABoss_AIController::OnTargetDetected(AActor* Actor, FAIStimulus const Stimu
 		// AI의 블랙보드에서 "CanSeePlayer"라는 키 값을 업데이트
 		// Stimulus.WasSuccessfullySensed()는 AI가 이 캐릭터를 감지했는지 여부를 반환 (true/false)
 		GetBlackboardComponent()->SetValueAsBool("CanSeePlayer", Stimulus.WasSuccessfullySensed());
+		
 	}
 }
 

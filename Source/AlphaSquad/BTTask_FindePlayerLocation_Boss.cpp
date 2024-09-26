@@ -49,6 +49,8 @@ EBTNodeResult::Type UBTTask_FindePlayerLocation_Boss::ExecuteTask(UBehaviorTreeC
 		{
 			// SearchRandom이 false일 경우, 플레이어의 정확한 위치를 블랙보드에 저장합니다.
 			OwnerComp.GetBlackboardComponent()->SetValueAsVector(GetSelectedBlackboardKey(), PlayerLocation);
+			FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded); 
+			return EBTNodeResult::Succeeded;
 		}
 	}
 

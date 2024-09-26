@@ -8,6 +8,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AISense_Sight.h"
 
 // Sets default values
 ASOS_TestingCharacter::ASOS_TestingCharacter()
@@ -40,7 +42,8 @@ ASOS_TestingCharacter::ASOS_TestingCharacter()
 	// boss_cameraComp->bUsePawnControlRotation = false;
 	
 	//bUseControllerRotationYaw = true;
-	
+
+	SetupStimulusSource();
 }
 
 
@@ -86,6 +89,24 @@ void ASOS_TestingCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 		
 	}
 }
+
+// 캐릭터의 AI 감지 신호(Stimulus Source)를 설정하는 함수
+void ASOS_TestingCharacter::SetupStimulusSource()
+{
+	// UAIPerceptionStimuliSourceComponent 생성: 캐릭터가 감지 신호를 발산할 수 있게 해줌
+	StimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));
+	
+	// StimulusSource가 유효한지 확인 후 설정
+	if(StimulusSource)
+	{
+		// 캐릭터를 시각적으로 감지할 수 있는 신호로 등록 (시각 감지 등록)
+		StimulusSource->RegisterForSense(TSubclassOf<UAISense_Sight>());
+
+		// 감지 신호를 Perception 시스템에 등록하여 작동시킴
+		StimulusSource->RegisterWithPerceptionSystem();
+	}
+}
+
 
 void ASOS_TestingCharacter::Boss_Move(const FInputActionValue& Value)
 {

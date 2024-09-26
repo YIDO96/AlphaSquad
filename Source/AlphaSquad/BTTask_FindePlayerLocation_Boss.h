@@ -22,6 +22,6 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite , Category="Search" ,meta=(AllowPrivateAccess="true"))
 	bool SearchRandom = false;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite , Category="Search" ,meta=(AllowPrivateAccess="true"))
-	float SearchRadis = 150.f;		
+	float SearchRadis = 500.f;		
 	
 };
