@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "GameFramework/Character.h"
+#include "ConbatInterface_Boss.h"
 #include "NPC_Boss.generated.h"
 
 UCLASS()
@@ -31,7 +32,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	
 	// Behavior Tree Function
 	UBehaviorTree* GetBehaviorTree();
-	
+
 };

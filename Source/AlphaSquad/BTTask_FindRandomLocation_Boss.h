@@ -21,6 +21,6 @@ public:
 private:
 	// Search able range
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AI", meta = (AllowPrivateAccess = "true"))
-	float SearchRadius = 1500.f;
+	float SearchRadius = 5000.f;
 	
 };

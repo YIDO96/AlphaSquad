@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 
 #include "BTTask_ChasePlayer_Boss.h"
 
@@ -24,9 +22,12 @@ EBTNodeResult::Type UBTTask_ChasePlayer_Boss::ExecuteTask(UBehaviorTreeComponent
 		// 블랙보드에서 현재 선택된 키(플레이어 위치)를 벡터 값으로 가져옵니다.
 		auto const PlayerLocation = OwnerComp.GetBlackboardComponent()->GetValueAsVector(GetSelectedBlackboardKey());
 
+		
+		
 		// 플레이어의 위치로 AI를 이동시킵니다.
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(cont, PlayerLocation);
-
+		
+		
 		// 작업을 성공으로 마칩니다.
 		FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 		return EBTNodeResult::Succeeded;		
@@ -35,3 +36,4 @@ EBTNodeResult::Type UBTTask_ChasePlayer_Boss::ExecuteTask(UBehaviorTreeComponent
 	// 만약 AIController를 가져오지 못하면 실패로 처리합니다.
 	return EBTNodeResult::Failed;	
 }
+
