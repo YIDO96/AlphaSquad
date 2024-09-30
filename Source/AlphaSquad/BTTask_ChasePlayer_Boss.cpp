@@ -31,6 +31,7 @@ EBTNodeResult::Type UBTTask_ChasePlayer_Boss::ExecuteTask(UBehaviorTreeComponent
 		// 작업을 성공으로 마칩니다.
 		FinishLatentTask(OwnerComp, EBTNodeResult::Succeeded);
 		return EBTNodeResult::Succeeded;		
+
 	}
 	
 	// 만약 AIController를 가져오지 못하면 실패로 처리합니다.

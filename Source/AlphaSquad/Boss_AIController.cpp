@@ -54,13 +54,13 @@ void ABoss_AIController::SetupPerceptionSystem()
 		// AI Perception Component 생성 및 설정 (AI의 감각 시스템을 처리하는 컴포넌트)
 		SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component")));
 		// 시각 감지의 기본 설정: 감지 반경을 500 유닛으로 설정
-		SightConfig->SightRadius = 500.f;
+		SightConfig->SightRadius = 1000.f;
 		// 시야를 잃을 때의 반경 설정 (감지 반경 + 25 유닛)
 		SightConfig->LoseSightRadius = SightConfig->SightRadius + 25.f;
 		// 감지 정보의 유효 시간 설정: 5초 동안 유지
 		SightConfig->SetMaxAge(5.f);
 		// 마지막으로 감지된 위치로부터 520 유닛 안에 있으면 자동으로 감지 성공
-		SightConfig->AutoSuccessRangeFromLastSeenLocation = 520.f;
+		SightConfig->AutoSuccessRangeFromLastSeenLocation = 2000.f;
 		// 적, 아군, 중립 캐릭터 모두 감지할 수 있도록 설정
 		SightConfig->DetectionByAffiliation.bDetectEnemies = true; // 적 감지
 		SightConfig->DetectionByAffiliation.bDetectFriendlies = true; // 아군 감지
