@@ -36,4 +36,10 @@ public:
 	// Behavior Tree Function
 	UBehaviorTree* GetBehaviorTree();
 
+public:
+	//적 AI관리 컴포넌트 클래스
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = FSMComponent)
+	class UBossFSM* fsm;
+	
+
 };
