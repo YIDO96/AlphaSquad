@@ -47,6 +47,8 @@ void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	FTimerHandle deathTimer;
+	GetWorld()->GetTimerManager().SetTimer(deathTimer, this, &ABullet::Die, 2.0f, false);
 }
 
 // Called every frame
@@ -54,5 +56,10 @@ void ABullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ABullet::Die()
+{
+	Destroy();
 }
 

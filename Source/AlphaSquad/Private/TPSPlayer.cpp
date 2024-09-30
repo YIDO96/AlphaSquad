@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Bullet.h"
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -36,6 +37,19 @@ ATPSPlayer::ATPSPlayer()
 	cameraComp->bUsePawnControlRotation = false;
 
 	bUseControllerRotationYaw = true;
+
+	// 총 스켈레탈메시 컴포넌트 등록
+	gunMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMeshComp"));
+	// 부모 컴포넌트를 Mesh 컴포넌트로 설정
+	gunMeshComp->SetupAttachment(GetMesh());
+	// 스켈레탈메시 데이터 로드
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> TempGunMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/FPS_Weapon_Bundle/Weapons/Meshes/AR4/SK_AR4.SK_AR4'"));
+	// 데이터 로드가 성공했다면
+	if (TempGunMesh.Succeeded())
+	{
+		gunMeshComp->SetSkeletalMesh(TempGunMesh.Object);
+		gunMeshComp->SetRelativeLocation(FVector(-14, 52, 120));
+	}
 }
 
 // Called when the game starts or when spawned
@@ -74,6 +88,8 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 		EnhancedInputComponent->BindAction(TurnIA, ETriggerEvent::Triggered, this, &ATPSPlayer::Turn);
 
 		EnhancedInputComponent->BindAction(TPSJumpIA, ETriggerEvent::Triggered, this, &ATPSPlayer::TPSJump);
+
+		EnhancedInputComponent->BindAction(FireIA, ETriggerEvent::Triggered, this, &ATPSPlayer::InputFire);
 	}
 }
 
@@ -124,4 +140,10 @@ void ATPSPlayer::Turn(const FInputActionValue& Value)
 void ATPSPlayer::TPSJump(const FInputActionValue& Value)
 {
 	Jump();
+}
+
+void ATPSPlayer::InputFire(const FInputActionValue& Value)
+{
+	FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
+	GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
 }
