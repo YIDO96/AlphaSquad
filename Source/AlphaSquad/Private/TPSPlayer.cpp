@@ -7,6 +7,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 
+#include "Perception\AIPerceptionStimuliSourceComponent.h"
+#include "Perception\AISense_Sight.h"
+
 // Sets default values
 ATPSPlayer::ATPSPlayer()
 {
@@ -36,6 +39,9 @@ ATPSPlayer::ATPSPlayer()
 	cameraComp->bUsePawnControlRotation = false;
 
 	bUseControllerRotationYaw = true;
+
+	// for AIControl Perception
+	SetupStimulusSource();
 }
 
 // Called when the game starts or when spawned
@@ -124,4 +130,15 @@ void ATPSPlayer::Turn(const FInputActionValue& Value)
 void ATPSPlayer::TPSJump(const FInputActionValue& Value)
 {
 	Jump();
+}
+
+void ATPSPlayer::SetupStimulusSource()
+{
+	StimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));
+	if (StimulusSource)
+	{
+
+		StimulusSource->RegisterForSense(TSubclassOf<UAISense_Sight>());
+		StimulusSource->RegisterWithPerceptionSystem();
+	}
 }
