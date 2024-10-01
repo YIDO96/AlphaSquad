@@ -31,7 +31,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// ¿©±â ºÎÅÍ Ãß°¡ ³»¿ª
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	class USpringArmComponent* springArmComp;
@@ -39,7 +39,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	class UCameraComponent* cameraComp;
 
-	// ¸ÅÇÎ ÄÁÅØ½ºÆ® Çì´õ ÆÄÀÏ¿¡ ÇÁ·ÎÆÛÆ¼·Î ³ëÃâ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	UPROPERTY(EditAnyWhere, Category = "Input")
 	UInputMappingContext* PlayerMappingContext;
 
@@ -55,6 +55,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* TPSJumpIA;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* FireIA;
+
 	void TPSMove(const FInputActionValue& Value);
 
 	void LookUp(const FInputActionValue& Value);
@@ -63,10 +66,19 @@ public:
 
 	void TPSJump(const FInputActionValue& Value);
 
+	void InputFire(const FInputActionValue& Value);
+
+	void FireBullet();
+
 	FVector MoveDirection;
 
 	bool isInvertLookUp;
 
+	UPROPERTY(VisibleAnywhere, Category="GunMesh")
+	class USkeletalMeshComponent* gunMeshComp;
+
+	UPROPERTY(EditDefaultsOnly, Category=BulletFactory)
+	TSubclassOf<class ABullet> bulletFactory;
 
 private:
 	// player perception script
