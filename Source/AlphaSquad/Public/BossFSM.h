@@ -65,5 +65,17 @@ public:
 	// 소유 액터
 	UPROPERTY()
 	class ANPC_Boss* me;
+
+	// 공격 범위
+	UPROPERTY(EditAnywhere, Category=FSM)
+	float attackRange = 500.0f;
+
+	// 공격 대기 시간
+	UPROPERTY(EditAnywhere, Category=FSM)
+	float attackDelayTime = 2.0f;
+
+	//피격 알림 이벤트 함수
+	void OnDamageProcess();
+	
 	
 };

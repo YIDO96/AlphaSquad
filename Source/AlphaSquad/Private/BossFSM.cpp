@@ -7,6 +7,7 @@
 #include "AlphaSquad/NPC_Boss.h"
 #include "Kismet/GameplayStatics.h"
 
+
 // Sets default values for this component's properties
 UBossFSM::UBossFSM()
 {
@@ -81,16 +82,50 @@ void UBossFSM::IdleState()
 
 void UBossFSM::MoveState()
 {
+	/*
 	// 1. 타깃 목적지가 필요하다.
 	FVector destination = target->GetActorLocation();
 	// 2. 방향이 필요하다.
 	FVector dir = destination - me->GetActorLocation();
 	// 방향으로 이동하고 싶다.
 	me->AddMovementInput(dir.GetSafeNormal());
+
+	// 타깃과 가까워지면 공격 상태로 전환하고 싶다.
+	// 1. 만약 거리가 공격 범위 안에 들어오면
+	if(dir.Size()<attackRange)
+	{
+		// 2. 공격 상태로 전환하고 싶다
+		mState = EBossState::Attack;
+	}
+	*/
 }
 
+// 공격 상태
 void UBossFSM::AttackState()
-{
+{	
+	//목표:일정 시간에 한 번씩 공격하고 싶다.
+	//1. 시간이 흘러야 한다.
+	currentTime += GetWorld()->DeltaTimeSeconds;
+	//2. 공격 시간이 됐으니까
+	if(currentTime > attackDelayTime)
+	{
+		// 3. 공격하고 싶다.
+		UE_LOG(LogTemp, Warning , TEXT("Attack"));
+		//경과 시간 초기화
+		currentTime = 0;
+	}
+
+	//목표: 타깃이 공격 범위를 벗어나면 상태를 이동으로 전환하고 싶다.
+	// 1. 타깃과의 거리가 필요하다.
+	float distance = FVector::Distance(target->GetActorLocation(), me->GetActorLocation());
+	// 2. 타깃과의 거리가 공격 범위를 벗어났으니까
+	if(distance>attackRange)
+	{
+		// 3. 상태를 이동으로 전환하고 싶다.
+		mState = EBossState::Move;
+		
+	}
+	
 }
 
 void UBossFSM::DamageState()
@@ -99,5 +134,11 @@ void UBossFSM::DamageState()
 
 void UBossFSM::DieState()
 {
+}
+
+void UBossFSM::OnDamageProcess()
+{
+	
+	// me->Destroy();
 }
 
