@@ -37,11 +37,11 @@ void ACSW_AIController::SetupPerceptionSystem()
 	if (SightConfig)
 	{
 		SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Comp")));
-		SightConfig->SightRadius = 500.0f;
-		SightConfig->LoseSightRadius = SightConfig->SightRadius + 25.0f;
-		SightConfig->PeripheralVisionAngleDegrees = 90.0f;
+		SightConfig->SightRadius = 1000.0f;
+		SightConfig->LoseSightRadius = SightConfig->SightRadius + 200.0f;
+		SightConfig->PeripheralVisionAngleDegrees = 180.0f;
 		SightConfig->SetMaxAge(5.0f);
-		SightConfig->AutoSuccessRangeFromLastSeenLocation = 520.0f;
+		SightConfig->AutoSuccessRangeFromLastSeenLocation = 900.0f;
 		SightConfig->DetectionByAffiliation.bDetectEnemies = true;
 		SightConfig->DetectionByAffiliation.bDetectFriendlies = true;
 		SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
@@ -55,9 +55,7 @@ void ACSW_AIController::SetupPerceptionSystem()
 
 void ACSW_AIController::OnTargetDetected(AActor* Actor, FAIStimulus const Stimulus)
 {
-	UE_LOG(LogTemp, Warning, TEXT("check dis "));
-
-
+	
 	if (auto* const ch = Cast<ATPSPlayer>(Actor))
 	{
 		GetBlackboardComponent()->SetValueAsBool("CanSeePlayer", Stimulus.WasSuccessfullySensed());
