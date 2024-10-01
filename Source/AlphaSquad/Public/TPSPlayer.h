@@ -66,4 +66,10 @@ public:
 	FVector MoveDirection;
 
 	bool isInvertLookUp;
+
+
+private:
+	// player perception script
+	class UAIPerceptionStimuliSourceComponent* StimulusSource;
+	void SetupStimulusSource();
 };
