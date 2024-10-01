@@ -24,13 +24,13 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
-	// ï¿½ß»ï¿½Ã¼ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	// ¹ß»çÃ¼ ÀÌµ¿À» ´ã´çÇÒ ÄÄÆ÷³ÍÆ®
 	UPROPERTY(VisibleAnywhere, Category = Movement)
 	class UProjectileMovementComponent* movementComp;
-	// ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	// Ãæµ¹ ÄÄÆ÷³ÍÆ®
 	UPROPERTY(VisibleAnywhere, Category = Collision)
 	class USphereComponent* collisionComp;
-	// ï¿½Ü°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	// ¿Ü°ü ÄÄÆ÷³ÍÆ®
 	UPROPERTY(VisibleAnywhere, Category = BodyMesh)
 	class UStaticMeshComponent* bodyMeshComp;
 
