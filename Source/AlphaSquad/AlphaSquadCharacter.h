@@ -44,9 +44,29 @@ class AAlphaSquadCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
 
+	/** Interaction Input Action */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* InteractionAction;
+
+	AActor* CachedInteractableActor;
+
+	
+
 public:
 	AAlphaSquadCharacter();
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsEButtonClick = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+	int64 CurrentMoney = 9999;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+	float Health = 100;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+	float MaxHealth = 100;
+
 
 protected:
 
@@ -55,7 +75,11 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+
+	/** Called for looking input */
+	void InteractionFunc(const FInputActionValue& Value);
 			
+	void PerformInteractionTrace();
 
 protected:
 	// APawn interface
@@ -65,9 +89,17 @@ protected:
 	virtual void BeginPlay();
 
 public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	class UInventoryComponent* InventoryComponent;
+
+
+
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateMoney(int64 inputVal, FName ItemName);
 };
 

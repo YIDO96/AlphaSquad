@@ -18,7 +18,8 @@ public class AlphaSquad : ModuleRules
 			"HeadMountedDisplay",
 			"AIModule",
 			"GameplayTasks",
-			"NavigationSystem"
+			"NavigationSystem",
+			"UMG"
 		});
 	}
 }

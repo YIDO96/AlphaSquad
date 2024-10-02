@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "CSW_Enemy.h"
 #include "CSW_EnemyAnim.h"
+#include "CSW_Enemy.h"
 
 void UCSW_EnemyAnim::NativeUpdateAnimation(float DeltaSeconds)
 {
