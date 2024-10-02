@@ -11,34 +11,37 @@ ABullet::ABullet()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Ãæµ¹Ã¼ µî·Ï
+	// ï¿½æµ¹Ã¼ ï¿½ï¿½ï¿½
 	collisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComp"));
-	// Ãæµ¹ ÇÁ·ÎÆÄÀÏ ¼³Á¤
+	// ï¿½æµ¹ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	collisionComp->SetCollisionProfileName(TEXT("BlockAll"));
-	// Ãæµ¹Ã¼ Å©±â ¼³Á¤
+	// ï¿½æµ¹Ã¼ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	collisionComp->SetSphereRadius(10);
-	// ·çÆ®·Î µî·Ï
+	// ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½
 	RootComponent = collisionComp;
-	// ¿Ü°ü ÄÄÆ÷³ÍÆ® µî·Ï
+	// ï¿½Ü°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
 	bodyMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BodyMeshComp"));
-	// ºÎ¸ð ÄÄÆ÷³ÍÆ® ÁöÁ¤
+	// ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	bodyMeshComp->SetupAttachment(collisionComp);
-	// Ãæµ¹ ºñÈ°¼ºÈ­
+	// ï¿½æµ¹ ï¿½ï¿½È°ï¿½ï¿½È­
 	bodyMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	// ¿Ü°ü Å©±â ¼³Á¤
+	// ï¿½Ü°ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	bodyMeshComp->SetRelativeScale3D(FVector(2.0f));
 
-	// ¹ß»çÃ¼ ÄÄÆ÷³ÍÆ®
+	bodyMeshComp->SetRelativeLocation(FVector(-10,0,0));
+	bodyMeshComp->SetRelativeRotation(FRotator(0,-90,0));
+
+	// ï¿½ß»ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	movementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
-	// movement ÄÄÆ÷³ÍÆ®°¡ °»½Å½ÃÅ³ ÄÄÆ÷³ÍÆ® ÁöÁ¤
+	// movement ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	movementComp->SetUpdatedComponent(collisionComp);
-	// ÃÊ±â ¼Óµµ
+	// ï¿½Ê±ï¿½ ï¿½Óµï¿½
 	movementComp->InitialSpeed = 5000;
-	// ÃÖ´ë ¼Óµµ
+	// ï¿½Ö´ï¿½ ï¿½Óµï¿½
 	movementComp->MaxSpeed = 5000;
-	// ¹Ýµ¿ ¿©ºÎ
+	// ï¿½Ýµï¿½ ï¿½ï¿½ï¿½ï¿½
 	movementComp->bShouldBounce = true;
-	// ¹Ýµ¿ °ª
+	// ï¿½Ýµï¿½ ï¿½ï¿½
 	movementComp->Bounciness = 0.3f;
 }
 
@@ -46,13 +49,20 @@ ABullet::ABullet()
 void ABullet::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	FTimerHandle deathTimer;
+	GetWorld()->GetTimerManager().SetTimer(deathTimer,FTimerDelegate::CreateLambda([this]()->void{Destroy();})
+		,2.0f,false);
 }
 
 // Called every frame
 void ABullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+void ABullet::Die()
+{
+	Destroy();
 }
 
