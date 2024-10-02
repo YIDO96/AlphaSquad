@@ -6,6 +6,9 @@
 #include "Camera/CameraComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Bullet.h"
+#include <Blueprint/UserWidget.h>
+#include <Kismet/GameplayStatics.h>
 
 #include "Perception\AIPerceptionStimuliSourceComponent.h"
 #include "Perception\AISense_Sight.h"
@@ -16,24 +19,24 @@ ATPSPlayer::ATPSPlayer()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// ½ºÄÌ·¹Å» ¸Ş½¬ ÃÊ±âÈ­
-	ConstructorHelpers::FObjectFinder<USkeletalMesh> InitMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/CustomContent/Character/Ch15_nonPBR.Ch15_nonPBR'"));
+	// ï¿½ï¿½ï¿½Ì·ï¿½Å» ï¿½Ş½ï¿½ ï¿½Ê±ï¿½È­
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> InitMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/NSK/Character/Ch15_NSK_nonPBR.Ch15_NSK_nonPBR'"));
 
-	if (InitMesh.Succeeded()) // Á¦´ë·Î °¡Á®¿Ô´Ù¸é
+	if (InitMesh.Succeeded()) // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ù¸ï¿½
 	{
 		GetMesh()->SetSkeletalMesh(InitMesh.Object);
 
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0, 0, -88), FRotator(0, -90, 0));
 	}
 
-	// springArm »ı¼º - ÃÊ±âÈ­
+	// springArm ï¿½ï¿½ï¿½ï¿½ - ï¿½Ê±ï¿½È­
 	springArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
 	springArmComp->SetupAttachment(RootComponent);
 	springArmComp->SetRelativeLocationAndRotation(FVector(0, 0, 50), FRotator(-20, 0, 0));
 	springArmComp->TargetArmLength = 450;
 	springArmComp->bUsePawnControlRotation = true;
 
-	// Camera Component ÃÊ±âÈ­
+	// Camera Component ï¿½Ê±ï¿½È­
 	cameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	cameraComp->SetupAttachment(springArmComp);
 	cameraComp->bUsePawnControlRotation = false;
@@ -42,12 +45,37 @@ ATPSPlayer::ATPSPlayer()
 
 	// for AIControl Perception
 	SetupStimulusSource();
+
+	// ì´ ìŠ¤ì¼ˆë ˆíƒˆë©”ì‹œ ì»´í¬ë„ŒíŠ¸ ë“±ë¡
+	gunMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMeshComp"));
+	// ë¶€ëª¨ ì»´í¬ë„Œí‹€ë¥¼ Mesh ì»´í¬ë„ŒíŠ¸ë¡œ ì„¤ì •
+	gunMeshComp->SetupAttachment(GetMesh());
+	// ìŠ¤ì¼ˆë ˆíƒˆë©”ì‹œ ë°ì´í„° ë¡œë“œ
+	ConstructorHelpers::FObjectFinder<USkeletalMesh> TempGunMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/FPS_Weapon_Bundle/Weapons/Meshes/AR4/SK_AR4.SK_AR4'"));
+	// ë°ì´í„°ë¡œë“œê°€ ì„±ê³µí–ˆë‹¤ë©´
+	if(TempGunMesh.Succeeded())
+	{
+		gunMeshComp->SetSkeletalMesh(TempGunMesh.Object);
+		gunMeshComp->SetRelativeLocation(FVector(-14, 52, 120));
+	}
+	sniperGunComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SniperGunComp"));
+	sniperGunComp->SetupAttachment(GetMesh());
+	ConstructorHelpers::FObjectFinder<UStaticMesh> TempSniperMesh(TEXT("/Script/Engine.StaticMesh'/Game/NSK/SniperGun/sniper1.sniper1'"));
+	if(TempSniperMesh.Succeeded())
+	{
+		sniperGunComp->SetStaticMesh(TempSniperMesh.Object);
+		sniperGunComp->SetRelativeLocation(FVector(-22, 55, 120));
+		sniperGunComp->SetRelativeScale3D(FVector(0.15f));
+	}
 }
 
-// Called when the game starts or when spawned
 void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	_sniperUI = CreateWidget(GetWorld(), sinperUIFactory);
+
+	ChangeToGrenadeGun(FInputActionValue());
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
@@ -59,14 +87,12 @@ void ATPSPlayer::BeginPlay()
 	}
 }
 
-// Called every frame
 void ATPSPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-// Called to bind functionality to input
 void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -80,30 +106,39 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 		EnhancedInputComponent->BindAction(TurnIA, ETriggerEvent::Triggered, this, &ATPSPlayer::Turn);
 
 		EnhancedInputComponent->BindAction(TPSJumpIA, ETriggerEvent::Triggered, this, &ATPSPlayer::TPSJump);
+
+		EnhancedInputComponent->BindAction(FireIA, ETriggerEvent::Triggered, this, &ATPSPlayer::InputFire);
+
+		EnhancedInputComponent->BindAction(GrenadeGunIA, ETriggerEvent::Started, this, &ATPSPlayer::ChangeToGrenadeGun);
+
+		EnhancedInputComponent->BindAction(SniperGunIA, ETriggerEvent::Started, this, &ATPSPlayer::ChangeToSniperGun);
+
+		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Started, this, &ATPSPlayer::SniperAim);
+		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Completed, this, &ATPSPlayer::SniperAim);
 	}
 }
 
 void ATPSPlayer::TPSMove(const FInputActionValue& Value)
 {
-	// ÀÔ·Â °ªÀ» FVector ÇüÅÂ·Î °¡Á®¿È
+	// ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ FVector ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	const FVector _CurrentValue = Value.Get<FVector>();
 	if (Controller)
 	{
-		MoveDirection.Y = _CurrentValue.X; // ÁÂ¿ì ¹æÇâ °ª
-		MoveDirection.X = _CurrentValue.Y; // ÀüÈÄ ¹æÇâ °ª
+		MoveDirection.Y = _CurrentValue.X; // ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+		MoveDirection.X = _CurrentValue.Y; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	}
 
-	// Ä«¸Ş¶óÀÇ ÇöÀç È¸Àü¿¡ ¸ÂÃç MoveDirectionÀ» º¯È¯
+	// Ä«ï¿½Ş¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ MoveDirectionï¿½ï¿½ ï¿½ï¿½È¯
 	MoveDirection = FTransform(GetControlRotation()).TransformVector(MoveDirection);
-	// º¯È¯µÈ MoveDirection ¹æÇâÀ¸·Î Ä³¸¯ÅÍ¸¦ ÀÌµ¿
+	// ï¿½ï¿½È¯ï¿½ï¿½ MoveDirection ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ìµï¿½
 	AddMovementInput(MoveDirection);
-	// MoveDirection ÃÊ±âÈ­ ´ÙÀ½ ÇÁ·¹ÀÓ ´©Àû ¹æÁö
+	// MoveDirection ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	MoveDirection = FVector::ZeroVector;
 }
 
 void ATPSPlayer::LookUp(const FInputActionValue& Value)
 {
-	// ÀÔ·Â °ªÀ» float ÇüÅÂ·Î °¡Á®¿È
+	// ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ float ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	float _CurrentValue;
 
 	if (isInvertLookUp)
@@ -115,15 +150,15 @@ void ATPSPlayer::LookUp(const FInputActionValue& Value)
 		_CurrentValue = Value.Get<float>() * -1;
 	}
 
-	// Ä«¸Ş¶óÀÇ Pitch °ªÀ» º¯°æÇÏ¿© À§¾Æ·¡ ½ÃÁ¡ ÀÌµ¿À» ¼öÇà
+	// Ä«ï¿½Ş¶ï¿½ï¿½ï¿½ Pitch ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	AddControllerPitchInput(_CurrentValue);
 }
 
 void ATPSPlayer::Turn(const FInputActionValue& Value)
 {
-	// ÀÔ·Â °ªÀ» float ÇüÅÂ·Î °¡Á®¿È
+	// ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ float ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	const float _CurrentValue = Value.Get<float>();
-	// Ä«¸Ş¶óÀÇ Yaw °ªÀ» º¯°æÇÏ¿© ÁÂ¿ì ½ÃÁ¡ ÀÌµ¿À» ¼öÇà
+	// Ä«ï¿½Ş¶ï¿½ï¿½ï¿½ Yaw ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	AddControllerYawInput(_CurrentValue);
 }
 
@@ -132,13 +167,85 @@ void ATPSPlayer::TPSJump(const FInputActionValue& Value)
 	Jump();
 }
 
+void ATPSPlayer::InputFire(const FInputActionValue& Value)
+{
+	if(bUsingGrenmadeGun)
+	{
+		if(bCanFire)
+		{
+			FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
+			GetWorld()->SpawnActor<ABullet>(bulletFactory,firePosition);
+
+			bCanFire = false;
+
+			GetWorldTimerManager().SetTimer(FireRateHandle,this,&ATPSPlayer::ResetFire,0.1f,false);
+		}
+	}
+	else
+	{
+		if(bCanFire)
+		{
+			FVector startPos = cameraComp->GetComponentLocation();
+			FVector endPos = cameraComp->GetComponentLocation() + cameraComp->GetForwardVector() * 5000;
+			FHitResult hitInfo;
+			FCollisionQueryParams params;
+			params.AddIgnoredActor(this);
+			bool bHit = GetWorld()->LineTraceSingleByChannel(hitInfo,startPos,endPos,ECC_Visibility,params);
+			if(bHit)
+			{
+				FTransform bulletTrans;
+				bulletTrans.SetLocation(hitInfo.ImpactPoint);
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectFactory, bulletTrans);
+			}
+
+			bCanFire = false;
+
+			GetWorldTimerManager().SetTimer(FireRateHandle,this,&ATPSPlayer::ResetFire,2.0f,false);
+		}
+	}
+}
+
+void ATPSPlayer::ResetFire()
+{
+	bCanFire = true;
+}
+
 void ATPSPlayer::SetupStimulusSource()
 {
 	StimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));
 	if (StimulusSource)
 	{
-
 		StimulusSource->RegisterForSense(TSubclassOf<UAISense_Sight>());
 		StimulusSource->RegisterWithPerceptionSystem();
+	}
+}
+
+void ATPSPlayer::ChangeToGrenadeGun(const struct FInputActionValue& inputValue)
+{
+	bUsingGrenmadeGun = true;
+	sniperGunComp->SetVisibility(false);
+	gunMeshComp->SetVisibility(true);
+}
+
+void ATPSPlayer::ChangeToSniperGun(const struct FInputActionValue& inputValue)
+{
+	bUsingGrenmadeGun = false;
+	sniperGunComp->SetVisibility(true);
+	gunMeshComp->SetVisibility(false);
+}
+
+void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
+{
+	if(bSniperAim == false)
+	{
+		bSniperAim = true;
+		_sniperUI->AddToViewport();
+		cameraComp->SetFieldOfView(45.0f);
+	}
+	else
+	{
+		bSniperAim = false;
+		_sniperUI->RemoveFromParent();
+		cameraComp->SetFieldOfView(90.0f);
 	}
 }
