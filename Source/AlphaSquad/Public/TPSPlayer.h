@@ -31,15 +31,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// ¿©±â ºÎÅÍ Ãß°¡ ³»¿ª
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	class USpringArmComponent* springArmComp;
 
-	UPROPERTY(VisibleAnywhere, Category = "Camera")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	class UCameraComponent* cameraComp;
 
-	// ¸ÅÇÎ ÄÁÅØ½ºÆ® Çì´õ ÆÄÀÏ¿¡ ÇÁ·ÎÆÛÆ¼·Î ³ëÃâ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	UPROPERTY(EditAnyWhere, Category = "Input")
 	UInputMappingContext* PlayerMappingContext;
 
@@ -55,28 +55,59 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* TPSJumpIA;
 
-	void TPSMove(const FInputActionValue& Value);
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* FireIA;
 
-	void LookUp(const FInputActionValue& Value);
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	class UInputAction* GrenadeGunIA;
 	
-	void Turn(const FInputActionValue& Value);
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	class UInputAction* SniperGunIA;
 
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	class UInputAction* SniperIA;
+	
+	bool bUsingGrenmadeGun = true;
+	
+	void ChangeToGrenadeGun(const struct FInputActionValue& inputValue);
+	void ChangeToSniperGun(const struct FInputActionValue& inputValue);
+	
+	void TPSMove(const FInputActionValue& Value);
+	void LookUp(const FInputActionValue& Value);
+	void Turn(const FInputActionValue& Value);
 	void TPSJump(const FInputActionValue& Value);
 
 	FVector MoveDirection;
-
 	bool isInvertLookUp;
-
-	// ÃÑ ½ºÄÌ·¹Å»¸Þ½Ã
-	UPROPERTY(VisibleAnywhere, Category=GunMesh)
+	
+	void InputFire(const FInputActionValue& Value);
+	void ResetFire();
+	void SniperAim(const struct FInputActionValue& inputValue);
+	
+	UPROPERTY(VisibleAnywhere, Category="GunMesh")
 	class USkeletalMeshComponent* gunMeshComp;
 
-	// ÃÑ¾Ë °øÀå
+	UPROPERTY(VisibleAnywhere, Category="GunMesh")
+	class UStaticMeshComponent* sniperGunComp;
+
+	UPROPERTY(EditDefaultsOnly, Category=SniperUI)
+	TSubclassOf<class UUserWidget> sinperUIFactory;
+
+	UPROPERTY()
+	class UUserWidget* _sniperUI;
+
 	UPROPERTY(EditDefaultsOnly, Category=BulletFactory)
 	TSubclassOf<class ABullet> bulletFactory;
+	
+	bool bCanFire = true;
+	bool bSniperAim = false;
+	FTimerHandle FireRateHandle;
 
-	UPROPERTY(EditDefaultsOnly, Category="Input")
-	class UInputAction* FireIA;
-	// ÃÑ¾Ë ¹ß»ç Ã³¸®ÇÔ¼ö
-	void InputFire(const FInputActionValue& Value);
+	UPROPERTY(EditDefaultsOnly, Category="BulletEffect")
+	class UParticleSystem* bulletEffectFactory;
+
+private:
+	// player perception script
+	class UAIPerceptionStimuliSourceComponent* StimulusSource;
+	void SetupStimulusSource();
 };
