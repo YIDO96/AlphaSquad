@@ -86,11 +86,34 @@ void AAlphaSquadCharacter::UpdateMoney(int64 inputVal, FName ItemName)
 	if (_result < 0)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Not Enough Money!"));
+		return;
 	}
 	else
 	{
 		CurrentMoney = _result;
 	}
+}
+
+bool AAlphaSquadCharacter::bIsBuyItem(FName ItemName)
+{
+	if (InventoryComponent->Inventory.Contains(ItemName))
+	{
+		// 구매하려는 아이템의 가질수있는 맥스 갯수보다 현재 개수가 크거나 같다면 구매 불가
+		if (InventoryComponent->Inventory[ItemName].ItemData.MaxStackCount <= InventoryComponent->Inventory[ItemName].Quantity)
+		{
+			return false;
+		}
+		// 현재머니가 아이템 가격보다 적다면 구매 불가
+		else if(CurrentMoney < InventoryComponent->Inventory[ItemName].ItemData.ItemPrice)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else return true;
 }
 
 //////////////////////////////////////////////////////////////////////////

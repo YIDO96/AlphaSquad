@@ -101,5 +101,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateMoney(int64 inputVal, FName ItemName);
+
+	UFUNCTION(BlueprintCallable)
+	bool bIsBuyItem(FName ItemName);
 };
 

@@ -64,6 +64,8 @@ void UInventoryComponent::AddItemToInventory(FName ItemRowName, int32 Quantity)
 		return;
 	}
 
+
+
 	if (Inventory.Contains(ItemRowName))
 	{
 		FInventoryItem& ExistingItem = Inventory[ItemRowName];
