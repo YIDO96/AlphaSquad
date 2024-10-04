@@ -12,6 +12,7 @@
 #include "InputActionValue.h"
 #include "LSH/LSH_InteractableInterface.h"
 #include "LSH/InventoryComponent.h"
+#include "Blueprint/UserWidget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -66,6 +67,12 @@ void AAlphaSquadCharacter::BeginPlay()
 
 	FTimerHandle traceTimerHandle;
 	GetWorldTimerManager().SetTimer(traceTimerHandle, this, &AAlphaSquadCharacter::PerformInteractionTrace, 0.2f, true);
+
+	if (QuickSlotandUIWidgetClass)
+	{
+		QuickSlotandUIWidget = CreateWidget<UUserWidget>(GetWorld(), QuickSlotandUIWidgetClass);
+		QuickSlotandUIWidget->AddToViewport();
+	}
 }
 
 void AAlphaSquadCharacter::UpdateMoney(int64 inputVal, FName ItemName)

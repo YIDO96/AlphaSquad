@@ -92,6 +92,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	class UInventoryComponent* InventoryComponent;
 
+	UPROPERTY(EditAnywhere, Category = "Interaction")
+	TSubclassOf<UUserWidget> QuickSlotandUIWidgetClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	UUserWidget* QuickSlotandUIWidget;
 
 
 	/** Returns CameraBoom subobject **/
