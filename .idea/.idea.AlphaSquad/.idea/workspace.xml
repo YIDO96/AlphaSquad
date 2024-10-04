@@ -13,6 +13,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_NPC_Boss.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_NPC_Boss.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BT_NPC_Boss.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BT_NPC_Boss.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -485,6 +488,7 @@
       <workItem from="1727872134010" duration="845000" />
       <workItem from="1727873029192" duration="657000" />
       <workItem from="1728021499816" duration="1176000" />
+      <workItem from="1728027764068" duration="795000" />
     </task>
     <servers />
   </component>
