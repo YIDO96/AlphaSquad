@@ -12,30 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AllExplosions/Materials/MI_Explosion_11.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AllExplosions/Materials/MI_Explosion_11.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AllExplosions/Materials/M_Explosion_1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AllExplosions/Materials/M_Explosion_1.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AllExplosions/Materials/M_Smoke_1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AllExplosions/Materials/M_Smoke_1.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AllExplosions/Materials/M_Smoke_Wisp_2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AllExplosions/Materials/M_Smoke_Wisp_2.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AllExplosions/Niagara/Big/NS_Explosion_Big_11.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AllExplosions/Niagara/Big/NS_Explosion_Big_11.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AllExplosions/Textures/T_Expl_27.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AllExplosions/Textures/T_Expl_27.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/AllExplosions/Textures/T_Smokeloop_1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/AllExplosions/Textures/T_Smokeloop_1.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSGameMode.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSGameMode.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_NPC_Boss.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_NPC_Boss.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BT_NPC_Boss.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BT_NPC_Boss.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/AM_Boss_Chapa_kick.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/AM_Boss_DrowKick.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/AM_Boss_Sprint.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/AM_TestMon.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Combo2_Flying_Knee_Punch_Combo_Montage.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_FlyingCombo_NotRoot.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Flying_RootMotion.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_PunchCombo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_PunchCombo.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Jump_NotRoot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Jump_NotRoot.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Test_Granade.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Drop_Kick.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Drop_Kick.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Tasks/BTT_Attack.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Tasks/BTT_Attack.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -507,6 +484,7 @@
       <workItem from="1727871832050" duration="265000" />
       <workItem from="1727872134010" duration="845000" />
       <workItem from="1727873029192" duration="657000" />
+      <workItem from="1728021499816" duration="1176000" />
     </task>
     <servers />
   </component>
