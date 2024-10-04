@@ -13,30 +13,27 @@
 #include "Perception\AIPerceptionStimuliSourceComponent.h"
 #include "Perception\AISense_Sight.h"
 
-// Sets default values
 ATPSPlayer::ATPSPlayer()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// ���̷�Ż �޽� �ʱ�ȭ
 	ConstructorHelpers::FObjectFinder<USkeletalMesh> InitMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/NSK/Character/Ch15_NSK_nonPBR.Ch15_NSK_nonPBR'"));
 
-	if (InitMesh.Succeeded()) // ����� �����Դٸ�
+	if (InitMesh.Succeeded())
 	{
 		GetMesh()->SetSkeletalMesh(InitMesh.Object);
 
 		GetMesh()->SetRelativeLocationAndRotation(FVector(0, 0, -88), FRotator(0, -90, 0));
 	}
 
-	// springArm ���� - �ʱ�ȭ
+	// springArm
 	springArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
 	springArmComp->SetupAttachment(RootComponent);
 	springArmComp->SetRelativeLocationAndRotation(FVector(0, 0, 50), FRotator(-20, 0, 0));
 	springArmComp->TargetArmLength = 450;
 	springArmComp->bUsePawnControlRotation = true;
 
-	// Camera Component �ʱ�ȭ
+	// Camera Component
 	cameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComp"));
 	cameraComp->SetupAttachment(springArmComp);
 	cameraComp->bUsePawnControlRotation = false;
@@ -72,6 +69,12 @@ ATPSPlayer::ATPSPlayer()
 void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UAnimInstance* pAnimInst = GetMesh()->GetAnimInstance();
+	if (pAnimInst != nullptr)
+	{
+		pAnimInst->OnPlayMontageNotifyBegin.AddDynamic(this, &ATPSPlayer::HandleOnMontageNotifyBegin);
+	}
 
 	_sniperUI = CreateWidget(GetWorld(), sinperUIFactory);
 
@@ -115,30 +118,32 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Started, this, &ATPSPlayer::SniperAim);
 		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Completed, this, &ATPSPlayer::SniperAim);
+
+		//EnhancedInputComponent->BindAction(RollIA, ETriggerEvent::Started, this, &ATPSPlayer::StartRoll);
+
+		EnhancedInputComponent->BindAction(RollIA, ETriggerEvent::Completed, this, &ATPSPlayer::Dodge);
 	}
 }
 
 void ATPSPlayer::TPSMove(const FInputActionValue& Value)
 {
-	// �Է� ���� FVector ���·� ������
+
 	const FVector _CurrentValue = Value.Get<FVector>();
 	if (Controller)
 	{
-		MoveDirection.Y = _CurrentValue.X; // �¿� ���� ��
-		MoveDirection.X = _CurrentValue.Y; // ���� ���� ��
+		MoveDirection.Y = _CurrentValue.X;
+		MoveDirection.X = _CurrentValue.Y;
 	}
 
-	// ī�޶��� ���� ȸ���� ���� MoveDirection�� ��ȯ
 	MoveDirection = FTransform(GetControlRotation()).TransformVector(MoveDirection);
-	// ��ȯ�� MoveDirection �������� ĳ���͸� �̵�
+
 	AddMovementInput(MoveDirection);
-	// MoveDirection �ʱ�ȭ ���� ������ ���� ����
+
 	MoveDirection = FVector::ZeroVector;
 }
 
 void ATPSPlayer::LookUp(const FInputActionValue& Value)
 {
-	// �Է� ���� float ���·� ������
 	float _CurrentValue;
 
 	if (isInvertLookUp)
@@ -150,26 +155,88 @@ void ATPSPlayer::LookUp(const FInputActionValue& Value)
 		_CurrentValue = Value.Get<float>() * -1;
 	}
 
-	// ī�޶��� Pitch ���� �����Ͽ� ���Ʒ� ���� �̵��� ����
+
 	AddControllerPitchInput(_CurrentValue);
 }
 
 void ATPSPlayer::Turn(const FInputActionValue& Value)
 {
-	// �Է� ���� float ���·� ������
+
 	const float _CurrentValue = Value.Get<float>();
-	// ī�޶��� Yaw ���� �����Ͽ� �¿� ���� �̵��� ����
+
 	AddControllerYawInput(_CurrentValue);
 }
 
 void ATPSPlayer::TPSJump(const FInputActionValue& Value)
 {
+	/*if (bIsRolling)
+	{
+		return;
+	}*/
+
 	Jump();
 }
 
+//void ATPSPlayer::StartRoll(const FInputActionValue& Value)
+//{
+//	if (!bIsRolling)
+//	{
+//		// 구르기 상태 활성화
+//		bIsRolling = true;
+//
+//		// 구르기 애니메이션 재생 길이
+//		float RollDuration = AM_Running_Dive_Roll_Montage->GetPlayLength();
+//
+//		// 구르기 애니메이션 재생
+//		PlayAnimMontage(AM_Running_Dive_Roll_Montage);
+//
+//		// 현재 이동 방향으로 빠르게 이동 (e.g., 600유닛 정도 앞으로)
+//		FVector RollDirection = GetActorForwardVector();
+//		LaunchCharacter(RollDirection * 600, true, true);
+//
+//		// 구르기 종료 타이머 설정 (애니메이션 길이만큼 딜레이)
+//		GetWorldTimerManager().SetTimer(RollTimerHandle, this, &ATPSPlayer::EndRoll, RollDuration, false);
+//	}
+//}
+
+//void ATPSPlayer::EndRoll()
+//{
+//	bIsRolling = false;
+//}
+
+//void ATPSPlayer::HandleOnMontageNotifyBegin(FName a_nNotifyName, const FBranchingPointNotifyPayload& a_pBranchingPayload)
+//{
+//	if (a_nNotifyName.ToString() == "Dodge")
+//	{
+//		m_bIsDodging = false;
+//	}
+//}
+
+void ATPSPlayer::Dodge()
+{
+	if (!bCanFire && CanJump() && !m_bIsDodging)
+	{
+		UAnimInstance* pAnimInst = GetMesh()->GetAnimInstance();
+		if (pAnimInst != nullptr)
+		{
+			m_bIsDodging = true;
+
+			pAnimInst->Montage_Play(AM_Running_Dive_Roll_Montage);
+			LaunchCharacter(GetActorForwardVector() * 2500, true, true);
+		}
+	}
+}
+
+
+
 void ATPSPlayer::InputFire(const FInputActionValue& Value)
 {
-	if(bUsingGrenmadeGun)
+	/*if (bIsRolling)
+	{
+		return;
+	}*/
+
+	if(bUsingGrenadeGun)
 	{
 		if(bCanFire)
 		{
@@ -222,14 +289,14 @@ void ATPSPlayer::SetupStimulusSource()
 
 void ATPSPlayer::ChangeToGrenadeGun(const struct FInputActionValue& inputValue)
 {
-	bUsingGrenmadeGun = true;
+	bUsingGrenadeGun = true;
 	sniperGunComp->SetVisibility(false);
 	gunMeshComp->SetVisibility(true);
 }
 
 void ATPSPlayer::ChangeToSniperGun(const struct FInputActionValue& inputValue)
 {
-	bUsingGrenmadeGun = false;
+	bUsingGrenadeGun = false;
 	sniperGunComp->SetVisibility(true);
 	gunMeshComp->SetVisibility(false);
 }
@@ -240,6 +307,10 @@ void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
 	{
 		bSniperAim = true;
 		_sniperUI->AddToViewport();
+
+		/*FVector CameraLocation = cameraComp->GetComponentLocation();
+		FVector ForwardVector = cameraComp->GetForwardVector();*/
+
 		cameraComp->SetFieldOfView(45.0f);
 	}
 	else
