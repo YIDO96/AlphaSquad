@@ -7,7 +7,7 @@
 #include "CSW_State_Attack2.h"
 #include "CSW_State_Attack3.h"
 #include "CSW_State_Idle.h"
-
+#include "TimerManager.h"
 
 // Sets default values
 ACSW_Enemy::ACSW_Enemy()
@@ -57,63 +57,85 @@ UBehaviorTree* ACSW_Enemy::GetBeHaviorTree() const
 
 void ACSW_Enemy::CombateStateExcute()
 {
-	CurrentState = NewObject<UCSW_State_Idle>(this);
+	int32 PatternIndex = 0;
 
-	for (const FString& pattern : ParsedPatterns)
+	// 처음 실행하는 함수
+	ExcutePatternWithDelay(PatternIndex);
+
+}
+
+void ACSW_Enemy::ExcutePatternWithDelay(int32 PatternIndex)
+{
+	if (ParsedPatterns.IsValidIndex(PatternIndex))
 	{
+		FString& pattern = ParsedPatterns[PatternIndex];
+
 		if (CurrentState)
 		{
 			CurrentState->ExitState();
 		}
 
-		if (StateMap.Contains(pattern))
+		if (pattern == "A1")
 		{
-			UE_LOG(LogTemp, Warning, TEXT("current State[%s]"), *pattern);
+			CurrentState = NewObject<UCSW_State_Attack1>(this);
+			MontageDuration = Pattern_Montage_A1->GetPlayLength()+0.5f;
+		}
+		else if (pattern == "A2")
+		{
+			CurrentState = NewObject<UCSW_State_Attack2>(this);
+			MontageDuration = Pattern_Montage_A2->GetPlayLength()+0.5f;
+		}
+		else if (pattern == "A3")
+		{
+			CurrentState = NewObject<UCSW_State_Attack3>(this);
+			MontageDuration = Pattern_Montage_A3->GetPlayLength()+0.5f;
+		}
 
-			
-
-
-			if (pattern == "A1")
-			{
-				CurrentState = NewObject<UCSW_State_Attack1>(this);
-
-				CurrentState->EnterState();
-				CurrentState->UpdateState();
-			}
-			else if (pattern == "A2")
-			{
-				CurrentState = NewObject<UCSW_State_Attack2>(this);
-
-				CurrentState->EnterState();
-				CurrentState->UpdateState();
-			}
-			else if (pattern == "A3")
-			{
-				CurrentState = NewObject<UCSW_State_Attack3>(this);
-
-				CurrentState->EnterState();
-				CurrentState->UpdateState();
-			}
-			else
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Failed to create state for: %s"), *pattern);
-			}
-
+		// 새로운 상태 진입
+		if (CurrentState)
+		{
+			CurrentState->EnterState();
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Unknown state: %s"), *Pattern);
+			UE_LOG(LogTemp, Warning, TEXT("Failed to create state for: %s"), *pattern);
 		}
+
+		GetWorld()->GetTimerManager().SetTimer
+		(
+			TimerHandle,
+			this,
+			&ACSW_Enemy::OnPatternExcutionComplate,
+			MontageDuration,
+			false,
+			MontageDuration
+		);
+
 	}
 
-	//CurrentState->ExitState();
+}
+
+void ACSW_Enemy::OnPatternExcutionComplate()
+{
+	// 다음 패턴 실행
+	int32 NextPatternIndex = ++CurrentPatternIndex; // 인덱스 증가
+	
+	if (ParsedPatterns.IsValidIndex(NextPatternIndex))
+	{
+		ExcutePatternWithDelay(NextPatternIndex);
+	}
+	else
+	{
+		// 모든 패턴이 끝난 후 처리
+		UE_LOG(LogTemp, Warning, TEXT("All patterns executed."));
+	}
 }
 
 
 TArray<FString> ACSW_Enemy::ParsePatternString(const FString& PatternString)
 {
 	TArray<FString> m_ParsedPatterns;
-	// ,�� �����ؼ� �Ľ�
+	// ,�� �����ؼ� �Ľ�
 	PatternString.ParseIntoArray(m_ParsedPatterns, TEXT(","), true);
 	return m_ParsedPatterns;
 }
