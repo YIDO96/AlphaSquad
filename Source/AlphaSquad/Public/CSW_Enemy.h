@@ -38,14 +38,34 @@ public:
 
 	void CombateStateExcute();
 
+	void ExcutePatternWithDelay(int32 PatternIndex);
+	void OnPatternExcutionComplate();
+
+	FTimerHandle TimerHandle;
+
+	float MontageDuration;
+	float CurrentPatternIndex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	bool isBoss;
+	
 private:
 	TMap<FString, TSubclassOf<UCSW_EnemyCombatInterface>> StateMap;
 
-	// ÇöÀç »óÅÂ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	ICSW_EnemyCombatInterface* CurrentState;
 
 	TArray<FString> ParsePatternString(const FString& PatternString);
 	
 	TArray<FString> ParsedPatterns;
+
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Montage")
+	UAnimMontage* Pattern_Montage_A1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Montage")
+	UAnimMontage* Pattern_Montage_A2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Montage")
+	UAnimMontage* Pattern_Montage_A3;
 
 };
