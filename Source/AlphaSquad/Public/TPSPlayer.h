@@ -71,7 +71,7 @@ public:
 	class UInputAction* SniperIA;
 	
 	UPROPERTY(BlueprintReadOnly, Category="Input")
-	bool bUsingGrenmadeGun = true;
+	bool bUsingGrenadeGun = true;
 	
 	void ChangeToGrenadeGun(const struct FInputActionValue& inputValue);
 	void ChangeToSniperGun(const struct FInputActionValue& inputValue);

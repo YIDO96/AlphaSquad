@@ -303,7 +303,7 @@ void ATPSPlayer::ResetFire()
 	bCanFire = true;
 
 	// AR일때
-	if (bUsingGrenmadeGun)
+	if (bUsingGrenadeGun)
 	{
 		InventoryComponent->Inventory[FName("ARMagazine")].Quantity--;
 	}
@@ -475,7 +475,7 @@ void ATPSPlayer::ChangeToSniperGun(const struct FInputActionValue& inputValue)
 	// 인벤토리에 스나이퍼가 있다면 변경 가능
 	if (InventoryComponent->Inventory.Contains(FName("Sniper")))
 	{
-		bUsingGrenmadeGun = false;
+		bUsingGrenadeGun = false;
 		sniperGunComp->SetVisibility(true);
 		gunMeshComp->SetVisibility(false);
 	}
@@ -486,7 +486,7 @@ void ATPSPlayer::ChangeToSniperGun(const struct FInputActionValue& inputValue)
 
 void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
 {
-	if (not bUsingGrenmadeGun)
+	if (not bUsingGrenadeGun)
 	{
 		if (bSniperAim == false)
 		{
