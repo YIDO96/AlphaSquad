@@ -58,6 +58,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* FireIA;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* RollIA;
+
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	class UInputAction* GrenadeGunIA;
 	
@@ -67,7 +70,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	class UInputAction* SniperIA;
 	
-	bool bUsingGrenmadeGun = true;
+	bool bUsingGrenadeGun = true;
 	
 	void ChangeToGrenadeGun(const struct FInputActionValue& inputValue);
 	void ChangeToSniperGun(const struct FInputActionValue& inputValue);
@@ -78,8 +81,25 @@ public:
 	void TPSJump(const FInputActionValue& Value);
 
 	FVector MoveDirection;
+
 	bool isInvertLookUp;
-	
+
+	//bool bIsRolling;
+	//void StartRoll(const FInputActionValue& Value);
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Roll")
+	//UAnimMontage* AM_Running_Dive_Roll_Montage;
+	//FTimerHandle RollTimerHandle;
+	//void EndRoll();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+	UAnimMontage* AM_Running_Dive_Roll_Montage;
+
+	UFUNCTION()
+	void HandleOnMontageNotifyBegin(FName a_nNotifyName, const FBranchingPointNotifyPayload& a_pBranchingPayload);
+
+	void Dodge();
+	bool m_bIsDodging = false;
+
 	void InputFire(const FInputActionValue& Value);
 	void ResetFire();
 	void SniperAim(const struct FInputActionValue& inputValue);
