@@ -9,9 +9,12 @@
 #include "Bullet.h"
 #include <Blueprint/UserWidget.h>
 #include <Kismet/GameplayStatics.h>
-
 #include "Perception\AIPerceptionStimuliSourceComponent.h"
 #include "Perception\AISense_Sight.h"
+
+#include "LSH/InventoryComponent.h"
+#include "LSH/LSH_InteractableInterface.h"
+
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -67,6 +70,10 @@ ATPSPlayer::ATPSPlayer()
 		sniperGunComp->SetRelativeLocation(FVector(-22, 55, 120));
 		sniperGunComp->SetRelativeScale3D(FVector(0.15f));
 	}
+
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+	InventoryComponent->MaxInventorySize = 30;
+	
 }
 
 void ATPSPlayer::BeginPlay()
@@ -85,6 +92,9 @@ void ATPSPlayer::BeginPlay()
 			Subsystem->AddMappingContext(PlayerMappingContext, 0);
 		}
 	}
+
+	FTimerHandle traceTimerHandle;
+	GetWorldTimerManager().SetTimer(traceTimerHandle, this, &ATPSPlayer::PerformInteractionTrace, 0.2f, true);
 }
 
 void ATPSPlayer::Tick(float DeltaTime)
@@ -115,6 +125,8 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Started, this, &ATPSPlayer::SniperAim);
 		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Completed, this, &ATPSPlayer::SniperAim);
+
+		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &ATPSPlayer::InteractionFunc);
 	}
 }
 
@@ -171,6 +183,12 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 {
 	if(bUsingGrenmadeGun)
 	{
+		// 총알이 없다면 발사금지
+		if (InventoryComponent->Inventory[FName("ARMagazine")].Quantity <= 0)
+		{
+			return;
+		}
+
 		if(bCanFire)
 		{
 			FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
@@ -179,10 +197,18 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 			bCanFire = false;
 
 			GetWorldTimerManager().SetTimer(FireRateHandle,this,&ATPSPlayer::ResetFire,0.1f,false);
+
+			
 		}
 	}
 	else
 	{
+		// 총알이 없다면 발사금지
+		if (InventoryComponent->Inventory[FName("SniperMagazine")].Quantity <= 0)
+		{
+			return;
+		}
+
 		if(bCanFire)
 		{
 			FVector startPos = cameraComp->GetComponentLocation();
@@ -208,6 +234,16 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 void ATPSPlayer::ResetFire()
 {
 	bCanFire = true;
+
+	// AR일때
+	if (bUsingGrenmadeGun)
+	{
+		InventoryComponent->Inventory[FName("ARMagazine")].Quantity--;
+	}
+	else // 스나이퍼일때
+	{
+		InventoryComponent->Inventory[FName("SniperMagazine")].Quantity--;
+	}
 }
 
 void ATPSPlayer::SetupStimulusSource()
@@ -220,6 +256,146 @@ void ATPSPlayer::SetupStimulusSource()
 	}
 }
 
+void ATPSPlayer::InteractionFunc(const FInputActionValue& Value)
+{
+	// 상호작용을 수행할 액터가 캐싱되어 있는지 확인
+	if (CachedInteractableActor)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("InteractionFunc- CachedInteractableAction Valid"));
+		ILSH_InteractableInterface* CachedInteractable = Cast<ILSH_InteractableInterface>(CachedInteractableActor);
+		if (CachedInteractable)
+		{
+			// 상호작용 수행
+			IsEButtonClick = true;
+			CachedInteractable->Interact();
+		}
+	}
+}
+
+void ATPSPlayer::PerformInteractionTrace()
+{
+	FVector startPoint = GetActorLocation();
+	FVector endPoint = startPoint + GetActorForwardVector() * 200.0f;
+	FHitResult hitOut;
+
+	FCollisionQueryParams traceParams;
+	traceParams.AddIgnoredActor(this);
+
+	bool bHit = GetWorld()->LineTraceSingleByChannel(hitOut, startPoint, endPoint, ECC_GameTraceChannel2, traceParams);
+
+	// bHit == true : Trace 결과 값이 있다면
+	if (bHit)
+	{
+		AActor* hitActor = hitOut.GetActor();
+		// 맞은 친구가 있다면
+		if (hitActor)
+		{
+			// 해당 액터에, 특정 인터페이스를 소유하고 있는지 여부를 알고싶다면, Casting 해보면 된다.
+			// Cast 성공하며, 해당 인터페이스를 소유, 실패하면 소유x
+			ILSH_InteractableInterface* InteractableActor = Cast<ILSH_InteractableInterface>(hitActor);
+
+			if (InteractableActor)
+			{
+				// 새로운 상호작용 대상이 이전 상호작용 대상과 다르다면
+				if (CachedInteractableActor != hitActor)
+				{
+					// 이전 상호작용 대상이 있다면 위젯을 off
+					ILSH_InteractableInterface* CachedInteractable = Cast<ILSH_InteractableInterface>(CachedInteractableActor);
+					if (CachedInteractable)
+					{
+						CachedInteractable->HideInteractionWidget();
+					}
+				}
+
+				if (not IsEButtonClick)
+				{
+					// 새로운 액터를 캐싱하고 위젯 표시
+					CachedInteractableActor = hitActor;
+					InteractableActor->DisplayInteractionWidget();
+				}
+
+			}
+		}
+	}
+	else // 노 히트일때
+	{
+		// 과거에 상호작용한 대상이 있다면
+		if (CachedInteractableActor)
+		{
+			ILSH_InteractableInterface* CachedInteractable = Cast<ILSH_InteractableInterface>(CachedInteractableActor);
+			if (CachedInteractable)
+			{
+				CachedInteractable->HideInteractionWidget();
+			}
+
+			// 상호작용중인 대상이 없기에 nullptr값 넣어주기
+			CachedInteractableActor = nullptr;
+		}
+	}
+
+	// DebugLine 그리기
+	//if (bHit)
+	//{
+	//	// 히트된 위치까지의 디버그 라인 그리기
+	//	DrawDebugLine(GetWorld(), startPoint, hitOut.ImpactPoint, FColor::Red, false, 5.0f, 0, 2.0f);
+	//	// 히트된 위치에 디버그 스피어 그리기
+	//	DrawDebugSphere(GetWorld(), hitOut.ImpactPoint, 10.0f, 12, FColor::Yellow, false, 5.0f);
+	//}
+	//else
+	//{
+	//	// 트레이스 전체 범위에 디버그 라인 그리기
+	//	DrawDebugLine(GetWorld(), startPoint, endPoint, FColor::Blue, false, 5.0f, 0, 2.0f);
+	//}
+}
+
+void ATPSPlayer::UpdateMoney(int64 inputVal, FName ItemName)
+{
+	int _result = CurrentMoney + inputVal;
+
+	// 아이템이 있다면
+	if (InventoryComponent->Inventory.Contains(ItemName))
+	{
+		// 구매하려는 아이템의 가질수있는 맥스 갯수보다 현재 개수가 크거나 같다면 구매 불가
+		if (InventoryComponent->Inventory[ItemName].ItemData.MaxStackCount <= InventoryComponent->Inventory[ItemName].Quantity)
+		{
+			return;
+		}
+	}
+
+
+	if (_result < 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Not Enough Money!"));
+		return;
+	}
+	else
+	{
+		CurrentMoney = _result;
+	}
+}
+
+bool ATPSPlayer::bIsBuyItem(FName ItemName)
+{
+	if (InventoryComponent->Inventory.Contains(ItemName))
+	{
+		// 구매하려는 아이템의 가질수있는 맥스 갯수보다 현재 개수가 크거나 같다면 구매 불가
+		if (InventoryComponent->Inventory[ItemName].ItemData.MaxStackCount <= InventoryComponent->Inventory[ItemName].Quantity)
+		{
+			return false;
+		}
+		// 현재머니가 아이템 가격보다 적다면 구매 불가
+		else if (CurrentMoney < InventoryComponent->Inventory[ItemName].ItemData.ItemPrice)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else return true;
+}
+
 void ATPSPlayer::ChangeToGrenadeGun(const struct FInputActionValue& inputValue)
 {
 	bUsingGrenmadeGun = true;
@@ -229,23 +405,30 @@ void ATPSPlayer::ChangeToGrenadeGun(const struct FInputActionValue& inputValue)
 
 void ATPSPlayer::ChangeToSniperGun(const struct FInputActionValue& inputValue)
 {
-	bUsingGrenmadeGun = false;
-	sniperGunComp->SetVisibility(true);
-	gunMeshComp->SetVisibility(false);
+	// 인벤토리에 스나이퍼가 있다면 변경 가능
+	if (InventoryComponent->Inventory.Contains(FName("Sniper")))
+	{
+		bUsingGrenmadeGun = false;
+		sniperGunComp->SetVisibility(true);
+		gunMeshComp->SetVisibility(false);
+	}
 }
 
 void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
 {
-	if(bSniperAim == false)
+	if (not bUsingGrenmadeGun)
 	{
-		bSniperAim = true;
-		_sniperUI->AddToViewport();
-		cameraComp->SetFieldOfView(45.0f);
-	}
-	else
-	{
-		bSniperAim = false;
-		_sniperUI->RemoveFromParent();
-		cameraComp->SetFieldOfView(90.0f);
+		if (bSniperAim == false)
+		{
+			bSniperAim = true;
+			_sniperUI->AddToViewport();
+			cameraComp->SetFieldOfView(45.0f);
+		}
+		else
+		{
+			bSniperAim = false;
+			_sniperUI->RemoveFromParent();
+			cameraComp->SetFieldOfView(90.0f);
+		}
 	}
 }

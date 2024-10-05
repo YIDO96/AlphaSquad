@@ -67,6 +67,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	class UInputAction* SniperIA;
 	
+	UPROPERTY(BlueprintReadOnly, Category="Input")
 	bool bUsingGrenmadeGun = true;
 	
 	void ChangeToGrenadeGun(const struct FInputActionValue& inputValue);
@@ -110,4 +111,45 @@ private:
 	// player perception script
 	class UAIPerceptionStimuliSourceComponent* StimulusSource;
 	void SetupStimulusSource();
+
+
+
+	/* 인벤토리*/
+	// 변수들
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* InteractionAction;
+
+	AActor* CachedInteractableActor;
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool IsEButtonClick = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+	int64 CurrentMoney = 9999;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+	float Health = 100;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+	float MaxHealth = 100;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
+	class UInventoryComponent* InventoryComponent;
+
+
+	// 함수들
+protected:
+	/** Called for looking input */
+	void InteractionFunc(const FInputActionValue& Value);
+
+	void PerformInteractionTrace();
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void UpdateMoney(int64 inputVal, FName ItemName);
+
+	UFUNCTION(BlueprintCallable)
+	bool bIsBuyItem(FName ItemName);
 };
