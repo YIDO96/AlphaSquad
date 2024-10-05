@@ -6,6 +6,11 @@
 #include "CSW_State_Attack1.h"
 #include "CSW_State_Attack2.h"
 #include "CSW_State_Attack3.h"
+#include "CSW_State_bAttack1.h"
+#include "CSW_State_bAttack2.h"
+#include "CSW_State_bAttack3.h"
+#include "CSW_State_bAttack4.h"
+#include "CSW_State_bAttack5.h"
 #include "CSW_State_Idle.h"
 #include "TimerManager.h"
 
@@ -90,6 +95,31 @@ void ACSW_Enemy::ExcutePatternWithDelay(int32 PatternIndex)
 			CurrentState = NewObject<UCSW_State_Attack3>(this);
 			MontageDuration = Pattern_Montage_A3->GetPlayLength()+0.5f;
 		}
+		else if (pattern == "B1")
+		{
+			CurrentState = NewObject<UCSW_State_bAttack1>(this);
+			MontageDuration = Pattern_Montage_B1->GetPlayLength() + 0.5f;
+		}
+		else if (pattern == "B2")
+		{
+			CurrentState = NewObject<UCSW_State_bAttack2>(this);
+			MontageDuration = Pattern_Montage_B2->GetPlayLength() + 0.5f;
+		}
+		else if (pattern == "B3")
+		{
+			CurrentState = NewObject<UCSW_State_bAttack3>(this);
+			MontageDuration = Pattern_Montage_B3->GetPlayLength() + 0.5f;
+		}
+		else if (pattern == "B4")
+		{
+			CurrentState = NewObject<UCSW_State_bAttack4>(this);
+			MontageDuration = Pattern_Montage_B4->GetPlayLength() + 0.5f;
+		}
+		else if (pattern == "B5")
+		{
+			CurrentState = NewObject<UCSW_State_bAttack5>(this);
+			MontageDuration = Pattern_Montage_B5->GetPlayLength() + 0.5f;
+		}
 
 		// 새로운 상태 진입
 		if (CurrentState)
@@ -110,9 +140,7 @@ void ACSW_Enemy::ExcutePatternWithDelay(int32 PatternIndex)
 			false,
 			MontageDuration
 		);
-
 	}
-
 }
 
 void ACSW_Enemy::OnPatternExcutionComplate()
@@ -127,6 +155,9 @@ void ACSW_Enemy::OnPatternExcutionComplate()
 	else
 	{
 		// 모든 패턴이 끝난 후 처리
+		// 1. 플레이어와의 거리가 짧을 경우 계속 패턴 유지
+		// 2. 아닌 경우 그냥 다시 순찰 모드
+		// 추가 될 예정
 		UE_LOG(LogTemp, Warning, TEXT("All patterns executed."));
 	}
 }
