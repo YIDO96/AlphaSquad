@@ -204,13 +204,13 @@ void ATPSPlayer::TPSJump(const FInputActionValue& Value)
 //	bIsRolling = false;
 //}
 
-//void ATPSPlayer::HandleOnMontageNotifyBegin(FName a_nNotifyName, const FBranchingPointNotifyPayload& a_pBranchingPayload)
-//{
-//	if (a_nNotifyName.ToString() == "Dodge")
-//	{
-//		m_bIsDodging = false;
-//	}
-//}
+void ATPSPlayer::HandleOnMontageNotifyBegin(FName a_nNotifyName, const FBranchingPointNotifyPayload& a_pBranchingPayload)
+{
+	if (a_nNotifyName.ToString() == "Dodge")
+	{
+		m_bIsDodging = false;
+	}
+}
 
 void ATPSPlayer::Dodge()
 {
