@@ -253,7 +253,7 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 	if(bUsingGrenadeGun)
 	{
 		// 총알이 없다면 발사금지
-		if (InventoryComponent->Inventory[FName("ARMagazine")].Quantity <= 0)
+		if (ARMagazineBullet <= 0)
 		{
 			return;
 		}
@@ -273,7 +273,7 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 	else
 	{
 		// 총알이 없다면 발사금지
-		if (InventoryComponent->Inventory[FName("SniperMagazine")].Quantity <= 0)
+		if (SniperMagazineBullet <= 0)
 		{
 			return;
 		}
@@ -307,11 +307,13 @@ void ATPSPlayer::ResetFire()
 	// AR일때
 	if (bUsingGrenadeGun)
 	{
-		InventoryComponent->Inventory[FName("ARMagazine")].Quantity--;
+		//InventoryComponent->Inventory[FName("ARMagazine")].Quantity--;
+		ARMagazineBullet--;
 	}
 	else // 스나이퍼일때
 	{
-		InventoryComponent->Inventory[FName("SniperMagazine")].Quantity--;
+		//InventoryComponent->Inventory[FName("SniperMagazine")].Quantity--;
+		SniperMagazineBullet--;
 	}
 }
 
@@ -343,7 +345,64 @@ void ATPSPlayer::InteractionFunc(const FInputActionValue& Value)
 
 void ATPSPlayer::ReloadFunc(const FInputActionValue& Value)
 {
-	
+	if (bUsingGrenadeGun) // AR일때
+	{
+		if (InventoryComponent->Inventory.Contains(FName("ARMagazine")))
+		{
+		// 총알이 없다면 장전 불가
+			if (InventoryComponent->Inventory[FName("ARMagazine")].Quantity <= 0)
+			{
+				return;
+			}
+
+			// 총알이 30발이라면 장전 불가
+			if (ARMagazineBullet == 30)
+			{
+				return;
+			}
+
+			// 총알 전체 탄수가 30보다 작거나 같으면
+			if (InventoryComponent->Inventory[FName("ARMagazine")].Quantity + ARMagazineBullet <= 30)
+			{
+				ARMagazineBullet += InventoryComponent->Inventory[FName("ARMagazine")].Quantity;
+				InventoryComponent->Inventory[FName("ARMagazine")].Quantity = 0;
+			}
+			else
+			{ // ARMagazineBullet 27 Quantity 10 -> 
+				InventoryComponent->Inventory[FName("ARMagazine")].Quantity -= (30 -ARMagazineBullet);
+				ARMagazineBullet = 30;
+			}
+		}
+	}
+	else // 스나이퍼일때
+	{
+		if (InventoryComponent->Inventory.Contains(FName("SniperMagazine")))
+		{
+			// 총알이 없다면 장전 불가
+			if (InventoryComponent->Inventory[FName("SniperMagazine")].Quantity <= 0)
+			{
+				return;
+			}
+
+			// 총알이 30발이라면 장전 불가
+			if (SniperMagazineBullet == 10)
+			{
+				return;
+			}
+
+			// 총알 전체 탄수가 30보다 작거나 같으면
+			if (InventoryComponent->Inventory[FName("SniperMagazine")].Quantity + SniperMagazineBullet <= 10)
+			{
+				SniperMagazineBullet += InventoryComponent->Inventory[FName("SniperMagazine")].Quantity;
+				InventoryComponent->Inventory[FName("SniperMagazine")].Quantity = 0;
+			}
+			else
+			{ // ARMagazineBullet 27 Quantity 10 -> 
+				InventoryComponent->Inventory[FName("SniperMagazine")].Quantity -= (10 - SniperMagazineBullet);
+				SniperMagazineBullet = 10;
+			}
+		}
+	}
 }
 
 void ATPSPlayer::PerformInteractionTrace()

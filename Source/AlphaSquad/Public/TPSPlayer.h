@@ -159,7 +159,11 @@ public:
 	float MaxHealth = 100;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
-	int32 MagazineBullet = 30;
+	int32 ARMagazineBullet = 30;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+	int32 SniperMagazineBullet = 10;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	class UInventoryComponent* InventoryComponent;
 
