@@ -131,6 +131,8 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Completed, this, &ATPSPlayer::SniperAim);
 
 		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &ATPSPlayer::InteractionFunc);
+		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Started, this, &ATPSPlayer::ReloadFunc);
+
 		//EnhancedInputComponent->BindAction(RollIA, ETriggerEvent::Started, this, &ATPSPlayer::StartRoll);
 
 		EnhancedInputComponent->BindAction(RollIA, ETriggerEvent::Completed, this, &ATPSPlayer::Dodge);
@@ -339,6 +341,11 @@ void ATPSPlayer::InteractionFunc(const FInputActionValue& Value)
 	}
 }
 
+void ATPSPlayer::ReloadFunc(const FInputActionValue& Value)
+{
+	
+}
+
 void ATPSPlayer::PerformInteractionTrace()
 {
 	FVector startPoint = GetActorLocation();
@@ -399,20 +406,6 @@ void ATPSPlayer::PerformInteractionTrace()
 			CachedInteractableActor = nullptr;
 		}
 	}
-
-	// DebugLine 그리기
-	//if (bHit)
-	//{
-	//	// 히트된 위치까지의 디버그 라인 그리기
-	//	DrawDebugLine(GetWorld(), startPoint, hitOut.ImpactPoint, FColor::Red, false, 5.0f, 0, 2.0f);
-	//	// 히트된 위치에 디버그 스피어 그리기
-	//	DrawDebugSphere(GetWorld(), hitOut.ImpactPoint, 10.0f, 12, FColor::Yellow, false, 5.0f);
-	//}
-	//else
-	//{
-	//	// 트레이스 전체 범위에 디버그 라인 그리기
-	//	DrawDebugLine(GetWorld(), startPoint, endPoint, FColor::Blue, false, 5.0f, 0, 2.0f);
-	//}
 }
 
 void ATPSPlayer::UpdateMoney(int64 inputVal, FName ItemName)
@@ -479,9 +472,6 @@ void ATPSPlayer::ChangeToSniperGun(const struct FInputActionValue& inputValue)
 		sniperGunComp->SetVisibility(true);
 		gunMeshComp->SetVisibility(false);
 	}
-	bUsingGrenadeGun = false;
-	sniperGunComp->SetVisibility(true);
-	gunMeshComp->SetVisibility(false);
 }
 
 void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)

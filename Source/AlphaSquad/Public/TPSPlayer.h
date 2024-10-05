@@ -140,6 +140,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* InteractionAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* ReloadAction;
+
 	AActor* CachedInteractableActor;
 
 public:
@@ -155,6 +158,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
 	float MaxHealth = 100;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Status")
+	int32 MagazineBullet = 30;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory")
 	class UInventoryComponent* InventoryComponent;
 
@@ -163,6 +168,7 @@ public:
 protected:
 	/** Called for looking input */
 	void InteractionFunc(const FInputActionValue& Value);
+	void ReloadFunc(const FInputActionValue& Value);
 
 	void PerformInteractionTrace();
 
