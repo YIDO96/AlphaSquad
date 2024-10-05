@@ -2,6 +2,7 @@
 
 
 #include "NPC_Boss.h"
+#include "BossFSM.h"
 
 // Sets default values
 ANPC_Boss::ANPC_Boss()
@@ -9,6 +10,10 @@ ANPC_Boss::ANPC_Boss()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// BossFSM 컴포넌트 추가
+	fsm = CreateDefaultSubobject<UBossFSM>(TEXT("FSM"));
+	
+	
 }
 
 // Called when the game starts or when spawned

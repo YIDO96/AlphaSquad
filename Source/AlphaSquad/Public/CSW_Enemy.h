@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "GameFramework/Character.h"
+#include "CSW_EnemyCombatInterface.h"
 #include "CSW_Enemy.generated.h"
 
 UCLASS()
@@ -31,4 +32,40 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	class UBehaviorTree* Tree;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pattern")
+	FString Pattern;
+
+	void CombateStateExcute();
+
+	void ExcutePatternWithDelay(int32 PatternIndex);
+	void OnPatternExcutionComplate();
+
+	FTimerHandle TimerHandle;
+
+	float MontageDuration;
+	float CurrentPatternIndex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	bool isBoss;
+	
+private:
+	TMap<FString, TSubclassOf<UCSW_EnemyCombatInterface>> StateMap;
+
+	// ���� ����
+	ICSW_EnemyCombatInterface* CurrentState;
+
+	TArray<FString> ParsePatternString(const FString& PatternString);
+	
+	TArray<FString> ParsedPatterns;
+
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Montage")
+	UAnimMontage* Pattern_Montage_A1;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Montage")
+	UAnimMontage* Pattern_Montage_A2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Montage")
+	UAnimMontage* Pattern_Montage_A3;
+
 };
