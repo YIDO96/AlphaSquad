@@ -31,15 +31,12 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	// ���� ���� �߰� ����
-
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	class USpringArmComponent* springArmComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	class UCameraComponent* cameraComp;
 
-	// ���� ���ؽ�Ʈ ��� ���Ͽ� ������Ƽ�� ����
 	UPROPERTY(EditAnyWhere, Category = "Input")
 	UInputMappingContext* PlayerMappingContext;
 
@@ -84,22 +81,6 @@ public:
 	FVector MoveDirection;
 
 	bool isInvertLookUp;
-
-	//bool bIsRolling;
-	//void StartRoll(const FInputActionValue& Value);
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Roll")
-	//UAnimMontage* AM_Running_Dive_Roll_Montage;
-	//FTimerHandle RollTimerHandle;
-	//void EndRoll();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
-	UAnimMontage* AM_Running_Dive_Roll_Montage;
-
-	UFUNCTION()
-	void HandleOnMontageNotifyBegin(FName a_nNotifyName, const FBranchingPointNotifyPayload& a_pBranchingPayload);
-
-	void Dodge();
-	bool m_bIsDodging = false;
 
 	void InputFire(const FInputActionValue& Value);
 	void ResetFire();

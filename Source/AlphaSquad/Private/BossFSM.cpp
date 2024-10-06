@@ -3,7 +3,7 @@
 
 #include "BossFSM.h"
 
-#include "TPSPlayer.h"
+#include "NSK/TPSPlayer.h"
 #include "AlphaSquad/NPC_Boss.h"
 #include "Kismet/GameplayStatics.h"
 
