@@ -112,6 +112,27 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="BulletEffect")
 	class UParticleSystem* bulletEffectFactory;
 
+	UPROPERTY(EditDefaultsOnly, Category=CameraMotion)
+	TSubclassOf<class UCameraShakeBase> cameraShake;
+
+	UPROPERTY(EditDefaultsOnly, Category = Sound)
+	class USoundBase* bulletSound;
+
+	// Hit
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void OnHitEvent();
+
+	// Health
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	int32 hp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	int32 initialHp = 100;
+
+	// GameOver
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Health")
+	void OnGameOver();
+
 private:
 	// player perception script
 	class UAIPerceptionStimuliSourceComponent* StimulusSource;
