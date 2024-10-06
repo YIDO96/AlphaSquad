@@ -37,6 +37,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	class UCameraComponent* cameraComp;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+	class USpringArmComponent* MinimapspringArmComp;
+
+
 	UPROPERTY(EditAnyWhere, Category = "Input")
 	UInputMappingContext* PlayerMappingContext;
 
@@ -86,10 +90,10 @@ public:
 	void ResetFire();
 	void SniperAim(const struct FInputActionValue& inputValue);
 	
-	UPROPERTY(VisibleAnywhere, Category="GunMesh")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="GunMesh")
 	class USkeletalMeshComponent* gunMeshComp;
 
-	UPROPERTY(VisibleAnywhere, Category="GunMesh")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="GunMesh")
 	class UStaticMeshComponent* sniperGunComp;
 
 	UPROPERTY(EditDefaultsOnly, Category=SniperUI)

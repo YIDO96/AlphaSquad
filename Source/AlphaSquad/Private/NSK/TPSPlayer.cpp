@@ -32,7 +32,8 @@ ATPSPlayer::ATPSPlayer()
 
 	// springArm
 	springArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
-	springArmComp->SetupAttachment(RootComponent);
+	//springArmComp->SetupAttachment(RootComponent);
+	springArmComp->SetupAttachment(GetMesh());
 	springArmComp->SetRelativeLocationAndRotation(FVector(0, 0, 50), FRotator(-20, 0, 0));
 	springArmComp->TargetArmLength = 450;
 	springArmComp->bUsePawnControlRotation = true;
@@ -42,33 +43,42 @@ ATPSPlayer::ATPSPlayer()
 	cameraComp->SetupAttachment(springArmComp);
 	cameraComp->bUsePawnControlRotation = false;
 
+	MinimapspringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("MinimapspringArmComp"));
+	MinimapspringArmComp->SetupAttachment(RootComponent);
+	MinimapspringArmComp->bUsePawnControlRotation = false;
+
 	bUseControllerRotationYaw = true;
 
 	// for AIControl Perception
 	SetupStimulusSource();
 
-	// 총 스켈레탈메시 컴포넌트 등록
-	gunMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMeshComp"));
-	// 부모 컴포넌틀를 Mesh 컴포넌트로 설정
-	gunMeshComp->SetupAttachment(GetMesh());
-	// 스켈레탈메시 데이터 로드
-	ConstructorHelpers::FObjectFinder<USkeletalMesh> TempGunMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/FPS_Weapon_Bundle/Weapons/Meshes/AR4/SK_AR4.SK_AR4'"));
-	// 데이터로드가 성공했다면
-	if(TempGunMesh.Succeeded())
+	FName WeaponSocket = TEXT("Rifle"); // 총을 장착할 소켓 이름
+	if (GetMesh()->DoesSocketExist(WeaponSocket)) // Mesh에 Rifle이라는 이름의 소켓이 존재한다면
 	{
-		gunMeshComp->SetSkeletalMesh(TempGunMesh.Object);
-		gunMeshComp->SetRelativeLocation(FVector(-14, 52, 120));
-	}
+		// 총 스켈레탈메시 컴포넌트 등록
+		gunMeshComp = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GunMeshComp"));
+		// 부모 컴포넌틀를 Mesh 컴포넌트로 설정
+		gunMeshComp->SetupAttachment(GetMesh(), WeaponSocket);
+		// 스켈레탈메시 데이터 로드
+		ConstructorHelpers::FObjectFinder<USkeletalMesh> TempGunMesh(TEXT("/Script/Engine.SkeletalMesh'/Game/FPS_Weapon_Bundle/Weapons/Meshes/AR4/SK_AR4.SK_AR4'"));
+		// 데이터로드가 성공했다면
+		if (TempGunMesh.Succeeded())
+		{
+			gunMeshComp->SetSkeletalMesh(TempGunMesh.Object);
+			//gunMeshComp->SetRelativeLocation(FVector(-14, 52, 120));
+		}
 
-	sniperGunComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SniperGunComp"));
-	sniperGunComp->SetupAttachment(GetMesh());
-	ConstructorHelpers::FObjectFinder<UStaticMesh> TempSniperMesh(TEXT("/Script/Engine.StaticMesh'/Game/NSK/SniperGun/sniper1.sniper1'"));
+		sniperGunComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SniperGunComp"));
+		sniperGunComp->SetupAttachment(GetMesh(), WeaponSocket);
+		ConstructorHelpers::FObjectFinder<UStaticMesh> TempSniperMesh(TEXT("/Script/Engine.StaticMesh'/Game/NSK/SniperGun/sniper1.sniper1'"));
 
-	if(TempSniperMesh.Succeeded())
-	{
-		sniperGunComp->SetStaticMesh(TempSniperMesh.Object);
-		sniperGunComp->SetRelativeLocation(FVector(-22, 55, 120));
-		sniperGunComp->SetRelativeScale3D(FVector(0.15f));
+		// 스나이퍼 메쉬 가져오기에 성공했다면
+		if (TempSniperMesh.Succeeded())
+		{
+			sniperGunComp->SetStaticMesh(TempSniperMesh.Object);
+			sniperGunComp->SetRelativeLocation(FVector(0, 30, 5));
+			sniperGunComp->SetRelativeScale3D(FVector(0.15f));
+		}
 	}
 
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
@@ -123,7 +133,7 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 		EnhancedInputComponent->BindAction(SniperGunIA, ETriggerEvent::Started, this, &ATPSPlayer::ChangeToSniperGun);
 
 		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Started, this, &ATPSPlayer::SniperAim);
-		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Completed, this, &ATPSPlayer::SniperAim);
+		//EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Completed, this, &ATPSPlayer::SniperAim);
 
 		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &ATPSPlayer::InteractionFunc);
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Started, this, &ATPSPlayer::ReloadFunc);
@@ -191,8 +201,32 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 
 		if(bCanFire)
 		{
-			FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
-			GetWorld()->SpawnActor<ABullet>(bulletFactory,firePosition);
+			//FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
+			//GetWorld()->SpawnActor<ABullet>(bulletFactory,firePosition);
+
+			FVector startPoint = cameraComp->GetComponentLocation();
+			FVector endPoint = startPoint + cameraComp->GetForwardVector() * 10000.0f;
+			FHitResult hitOut;
+
+			FCollisionQueryParams traceParams;
+			traceParams.AddIgnoredActor(this);
+
+			bool bHit = GetWorld()->LineTraceSingleByChannel(hitOut, startPoint, endPoint, ECC_GameTraceChannel2, traceParams);
+
+			if (bHit)
+			{
+				// 히트된 위치까지의 디버그 라인 그리기
+				//DrawDebugLine(GetWorld(), startPoint, hitOut.ImpactPoint, FColor::Red, false, 5.0f, 0, 2.0f);
+				// 히트된 위치에 디버그 스피어 그리기
+				DrawDebugSphere(GetWorld(), hitOut.ImpactPoint, 10.0f, 12, FColor::Yellow, false, 5.0f);
+			}
+			else
+			{
+				// 트레이스 전체 범위에 디버그 라인 그리기
+				//DrawDebugLine(GetWorld(), startPoint, endPoint, FColor::Blue, false, 5.0f, 0, 2.0f);
+			}
+
+
 
 			bCanFire = false;
 
@@ -210,7 +244,7 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 		if(bCanFire)
 		{
 			FVector startPos = cameraComp->GetComponentLocation();
-			FVector endPos = cameraComp->GetComponentLocation() + cameraComp->GetForwardVector() * 5000;
+			FVector endPos = cameraComp->GetComponentLocation() + cameraComp->GetForwardVector() * 20000;
 			FHitResult hitInfo;
 			FCollisionQueryParams params;
 			params.AddIgnoredActor(this);
@@ -220,6 +254,12 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 				FTransform bulletTrans;
 				bulletTrans.SetLocation(hitInfo.ImpactPoint);
 				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectFactory, bulletTrans);
+			}
+
+			if (bHit)
+			{
+				// 히트된 위치에 디버그 스피어 그리기
+				DrawDebugSphere(GetWorld(), hitInfo.ImpactPoint, 10.0f, 12, FColor::Yellow, false, 5.0f);
 			}
 
 			bCanFire = false;
@@ -449,6 +489,11 @@ void ATPSPlayer::ChangeToGrenadeGun(const struct FInputActionValue& inputValue)
 	bUsingGrenadeGun = true;
 	sniperGunComp->SetVisibility(false);
 	gunMeshComp->SetVisibility(true);
+
+	// 스나이퍼 에임 종료
+	bSniperAim = false;
+	_sniperUI->RemoveFromParent();
+	cameraComp->SetFieldOfView(90.0f);
 }
 
 void ATPSPlayer::ChangeToSniperGun(const struct FInputActionValue& inputValue)
@@ -466,27 +511,27 @@ void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
 {
 	if (not bUsingGrenadeGun)
 	{
+		bSniperAim = not bSniperAim;
 		if (bSniperAim == false)
 		{
-			bSniperAim = true;
+			//bSniperAim = true;
 			_sniperUI->AddToViewport();
 			cameraComp->SetFieldOfView(45.0f);
 		}
 		else
 		{
-			bSniperAim = false;
+			//bSniperAim = false;
 			_sniperUI->RemoveFromParent();
 			cameraComp->SetFieldOfView(90.0f);
 		}
-		bSniperAim = true;
-		_sniperUI->AddToViewport();
-
-		cameraComp->SetFieldOfView(45.0f);
+		//bSniperAim = true;
+		//_sniperUI->AddToViewport();
+		//cameraComp->SetFieldOfView(45.0f);
 	}
-	else
-	{
-		bSniperAim = false;
-		_sniperUI->RemoveFromParent();
-		cameraComp->SetFieldOfView(90.0f);
-	}
+	//else
+	//{
+	//	bSniperAim = false;
+	//	_sniperUI->RemoveFromParent();
+	//	cameraComp->SetFieldOfView(90.0f);
+	//}
 }
