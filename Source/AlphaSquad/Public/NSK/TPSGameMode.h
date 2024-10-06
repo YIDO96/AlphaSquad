@@ -14,4 +14,12 @@ class ALPHASQUAD_API ATPSGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+	virtual void BeginPlay() override;
+
+	public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<class UUserWidget> W_MainStartUIClass;
+
+	UPROPERTY()
+	class UW_MainStartUI* W_MainStartUI;
 };
