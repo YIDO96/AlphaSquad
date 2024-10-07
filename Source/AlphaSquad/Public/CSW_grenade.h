@@ -15,6 +15,7 @@ public:
 	// Sets default values for this actor's properties
 	ACSW_grenade();
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -22,5 +23,25 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	FTimerHandle ExplosionTimerHandle;
+
+	void ExplostionGrenade();
+
+
+public:
+	UPROPERTY(VisibleAnywhere, Category = Movement)
+	class UProjectileMovementComponent* movementComp;
+	UPROPERTY(VisibleAnywhere, Category = Collision)
+	class USphereComponent* collisionComp;
+	UPROPERTY(VisibleAnywhere, Category = BodyMesh)
+	class UStaticMeshComponent* MeshComp;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Explosion")
+	float ExplosionDeley = 3.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Explosion")
+	UParticleSystem* grenade_effect;
 
 };
