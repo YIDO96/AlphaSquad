@@ -13,6 +13,8 @@
 #include "CSW_State_bAttack5.h"
 #include "CSW_State_Idle.h"
 #include "TimerManager.h"
+#include "Kismet\GameplayStatics.h"
+
 
 // Sets default values
 ACSW_Enemy::ACSW_Enemy()
@@ -61,6 +63,11 @@ UBehaviorTree* ACSW_Enemy::GetBeHaviorTree() const
 
 void ACSW_Enemy::CombateStateExcute()
 {
+	if (!IsValid(this)) // 객체 유효성 검사
+	{
+		return; // 유효하지 않으면 리턴
+	}
+
 	int32 PatternIndex = 0;
 
 	// 처음 실행하는 함수
@@ -70,6 +77,9 @@ void ACSW_Enemy::CombateStateExcute()
 
 void ACSW_Enemy::ExcutePatternWithDelay(int32 PatternIndex)
 {
+	// Timer Initial
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+
 	if (ParsedPatterns.IsValidIndex(PatternIndex))
 	{
 		FString& pattern = ParsedPatterns[PatternIndex];
@@ -144,6 +154,14 @@ void ACSW_Enemy::ExcutePatternWithDelay(int32 PatternIndex)
 
 void ACSW_Enemy::OnPatternExcutionComplate()
 {
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+
+	if (!IsValid(this)) // 객체 유효성 검사
+	{
+		return; // 유효하지 않으면 리턴
+	}
+
+
 	// 다음 패턴 실행
 	int32 NextPatternIndex = ++CurrentPatternIndex; // 인덱스 증가
 	
@@ -153,8 +171,26 @@ void ACSW_Enemy::OnPatternExcutionComplate()
 	}
 	else
 	{
+		// Timer Initial
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
 		// 모든 패턴이 끝난 후 처리
 		// 1. 플레이어와의 거리가 짧을 경우 계속 패턴 유지
+		
+		/*float DistanceToPlayer = FVector::Dist(GetActorLocation(), player)*/
+		if (auto* const player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0))
+		{
+			float Dis = FVector::Dist(GetActorLocation(), player->GetActorLocation());
+			if (Dis < attackRang)
+			{
+				NextPatternIndex = 0;
+				ExcutePatternWithDelay(NextPatternIndex);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Player is out of Range."));
+			}
+		}
+
 		// 2. 아닌 경우 그냥 다시 순찰 모드
 		// 추가 될 예정
 		UE_LOG(LogTemp, Warning, TEXT("All patterns executed."));
