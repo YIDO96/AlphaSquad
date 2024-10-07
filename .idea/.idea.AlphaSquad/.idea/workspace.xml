@@ -13,9 +13,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/Anim/Animations/Mixamo/Walk/IWalk_Forward.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/Anim/Animations/Mixamo/Walk/IWalk_Forward.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_CameraShake.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_CameraShake.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSPlayer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/NSK/Character/Ch15_nonPBR_Skeleton.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/Character/Ch15_nonPBR_Skeleton.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/AlphaSquad/Private/NSK/TPSPlayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AlphaSquad/Private/NSK/TPSPlayer.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -498,6 +498,8 @@
       <workItem from="1728264450058" duration="6697000" />
       <workItem from="1728275271982" duration="8666000" />
       <workItem from="1728287215118" duration="801000" />
+      <workItem from="1728297975479" duration="9000" />
+      <workItem from="1728298037456" duration="1501000" />
     </task>
     <servers />
   </component>

@@ -52,7 +52,7 @@ ATPSPlayer::ATPSPlayer()
 	// for AIControl Perception
 	SetupStimulusSource();
 
-	FName WeaponSocket = TEXT("Rifle"); // 총을 장착할 소켓 이름
+	FName WeaponSocket = TEXT("Hand_lSocket"); // 총을 장착할 소켓 이름
 	if (GetMesh()->DoesSocketExist(WeaponSocket)) // Mesh에 Rifle이라는 이름의 소켓이 존재한다면
 	{
 		// 총 스켈레탈메시 컴포넌트 등록
