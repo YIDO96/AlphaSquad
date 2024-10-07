@@ -10,6 +10,9 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
+#include "LSH/LSH_InteractableInterface.h"
+#include "LSH/InventoryComponent.h"
+#include "Blueprint/UserWidget.h"
 
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
@@ -52,12 +55,72 @@ AAlphaSquadCharacter::AAlphaSquadCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+	
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
+	InventoryComponent->MaxInventorySize = 30;
 }
 
 void AAlphaSquadCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
+
+	FTimerHandle traceTimerHandle;
+	GetWorldTimerManager().SetTimer(traceTimerHandle, this, &AAlphaSquadCharacter::PerformInteractionTrace, 0.2f, true);
+
+	if (QuickSlotandUIWidgetClass)
+	{
+		QuickSlotandUIWidget = CreateWidget<UUserWidget>(GetWorld(), QuickSlotandUIWidgetClass);
+		QuickSlotandUIWidget->AddToViewport();
+	}
+}
+
+void AAlphaSquadCharacter::UpdateMoney(int64 inputVal, FName ItemName)
+{
+	int _result = CurrentMoney + inputVal;
+
+	// 아이템이 있다면
+	if (InventoryComponent->Inventory.Contains(ItemName))
+	{
+		// 구매하려는 아이템의 가질수있는 맥스 갯수보다 현재 개수가 크거나 같다면 구매 불가
+		if (InventoryComponent->Inventory[ItemName].ItemData.MaxStackCount <= InventoryComponent->Inventory[ItemName].Quantity)
+		{
+			return;
+		}
+	}
+
+
+	if (_result < 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Not Enough Money!"));
+		return;
+	}
+	else
+	{
+		CurrentMoney = _result;
+	}
+}
+
+bool AAlphaSquadCharacter::bIsBuyItem(FName ItemName)
+{
+	if (InventoryComponent->Inventory.Contains(ItemName))
+	{
+		// 구매하려는 아이템의 가질수있는 맥스 갯수보다 현재 개수가 크거나 같다면 구매 불가
+		if (InventoryComponent->Inventory[ItemName].ItemData.MaxStackCount <= InventoryComponent->Inventory[ItemName].Quantity)
+		{
+			return false;
+		}
+		// 현재머니가 아이템 가격보다 적다면 구매 불가
+		else if(CurrentMoney < InventoryComponent->Inventory[ItemName].ItemData.ItemPrice)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else return true;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -86,6 +149,8 @@ void AAlphaSquadCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AAlphaSquadCharacter::Look);
+
+		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &AAlphaSquadCharacter::InteractionFunc);
 	}
 	else
 	{
@@ -127,4 +192,97 @@ void AAlphaSquadCharacter::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AAlphaSquadCharacter::InteractionFunc(const FInputActionValue& Value)
+{
+	// 상호작용을 수행할 액터가 캐싱되어 있는지 확인
+	if (CachedInteractableActor)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("InteractionFunc- CachedInteractableAction Valid"));
+		ILSH_InteractableInterface* CachedInteractable = Cast<ILSH_InteractableInterface>(CachedInteractableActor);
+		if (CachedInteractable)
+		{
+			// 상호작용 수행
+			IsEButtonClick = true;
+			CachedInteractable->Interact();
+		}
+	}
+}
+
+void AAlphaSquadCharacter::PerformInteractionTrace()
+{
+	FVector startPoint = GetActorLocation();
+	FVector endPoint = startPoint + GetActorForwardVector() * 200.0f;
+	FHitResult hitOut;
+
+	FCollisionQueryParams traceParams;
+	traceParams.AddIgnoredActor(this);
+
+	bool bHit = GetWorld()->LineTraceSingleByChannel(hitOut, startPoint, endPoint, ECC_GameTraceChannel2, traceParams);
+
+	// bHit == true : Trace 결과 값이 있다면
+	if (bHit)
+	{
+		AActor* hitActor = hitOut.GetActor();
+		// 맞은 친구가 있다면
+		if (hitActor)
+		{
+			// 해당 액터에, 특정 인터페이스를 소유하고 있는지 여부를 알고싶다면, Casting 해보면 된다.
+			// Cast 성공하며, 해당 인터페이스를 소유, 실패하면 소유x
+			ILSH_InteractableInterface* InteractableActor = Cast<ILSH_InteractableInterface>(hitActor);
+
+			if (InteractableActor)
+			{
+				// 새로운 상호작용 대상이 이전 상호작용 대상과 다르다면
+				if (CachedInteractableActor != hitActor)
+				{
+					// 이전 상호작용 대상이 있다면 위젯을 off
+					ILSH_InteractableInterface* CachedInteractable = Cast<ILSH_InteractableInterface>(CachedInteractableActor);
+					if (CachedInteractable)
+					{
+						CachedInteractable->HideInteractionWidget();
+					}
+				}
+
+				if (not IsEButtonClick)
+				{
+					// 새로운 액터를 캐싱하고 위젯 표시
+					CachedInteractableActor = hitActor;
+					InteractableActor->DisplayInteractionWidget();
+				}
+
+			}
+		}
+	}
+	else // 노 히트일때
+	{
+		// 과거에 상호작용한 대상이 있다면
+		if (CachedInteractableActor)
+		{
+			ILSH_InteractableInterface* CachedInteractable = Cast<ILSH_InteractableInterface>(CachedInteractableActor);
+			if (CachedInteractable)
+			{
+				CachedInteractable->HideInteractionWidget();
+			}
+
+			// 상호작용중인 대상이 없기에 nullptr값 넣어주기
+			CachedInteractableActor = nullptr;
+		}
+	}
+
+
+	// DebugLine 그리기
+	//if (bHit)
+	//{
+	//	// 히트된 위치까지의 디버그 라인 그리기
+	//	DrawDebugLine(GetWorld(), startPoint, hitOut.ImpactPoint, FColor::Red, false, 5.0f, 0, 2.0f);
+	//	// 히트된 위치에 디버그 스피어 그리기
+	//	DrawDebugSphere(GetWorld(), hitOut.ImpactPoint, 10.0f, 12, FColor::Yellow, false, 5.0f);
+	//}
+	//else
+	//{
+	//	// 트레이스 전체 범위에 디버그 라인 그리기
+	//	DrawDebugLine(GetWorld(), startPoint, endPoint, FColor::Blue, false, 5.0f, 0, 2.0f);
+	//}
 }
