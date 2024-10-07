@@ -15,6 +15,7 @@ class ALPHASQUAD_API ATPSGameMode : public AGameModeBase
 	GENERATED_BODY()
 	
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
@@ -22,4 +23,7 @@ class ALPHASQUAD_API ATPSGameMode : public AGameModeBase
 
 	UPROPERTY()
 	class UW_MainStartUI* W_MainStartUI;
+
+
+
 };

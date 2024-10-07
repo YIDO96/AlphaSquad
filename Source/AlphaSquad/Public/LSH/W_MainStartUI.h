@@ -29,4 +29,16 @@ public:
 
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* TB_Exit;
+
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Audio")
+	//UAudioComponent* AudioComponent;
+
+protected:
+	virtual void NativeConstruct() override;
+
+	UFUNCTION()
+	void OnStartButtonClicked();
+
+	UFUNCTION()
+	void OnExitButtonClicked();
 };
