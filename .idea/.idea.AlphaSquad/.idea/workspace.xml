@@ -13,13 +13,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/LSH/BlueprintVersion/T_compass_bar_fade.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/LSH/BlueprintVersion/T_compass_bar_fade.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/Preset/Input/IMC_NSK_Main.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/Preset/Input/IMC_NSK_Main.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/AMS_BossAttackNotify.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/AMS_BossAttackNotify.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_PunchCombo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_PunchCombo.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Jump_NotRoot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Jump_NotRoot.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_KickCombo_ForPhase1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_KickCombo_ForPhase1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/NSK/Anim/Animations/Mixamo/Walk/IWalk_Forward.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/Anim/Animations/Mixamo/Walk/IWalk_Forward.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_CameraShake.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_CameraShake.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSPlayer.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +26,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Developer/Windows/LiveCodingServer/Private/External/LC_ChangeNotification.h" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Source/AlphaSquad/Private/Boss_AnimNotifyState_SandNiagara.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Source/AlphaSquad/Public/Boss_AnimNotifyState_SandNiagara.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../UE_5.4/Engine/Source/Programs/UnrealBuildTool/System/ModuleDescriptor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../UE_5.4/Engine/Source/Runtime/Engine/Classes/Camera/PlayerCameraManager.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -43,19 +38,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "C++ Project.AlphaSquad.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "SOS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;C++ Project.AlphaSquad.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;NSK&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="C++ Project.AlphaSquad">
     <configuration name="AlphaSquad" type="CppProject" factoryName="C++ Project">
       <configuration_1>
@@ -501,7 +496,8 @@
       <workItem from="1728034734629" duration="877000" />
       <workItem from="1728038721834" duration="535000" />
       <workItem from="1728264450058" duration="6697000" />
-      <workItem from="1728280606005" duration="9960000" />
+      <workItem from="1728275271982" duration="8666000" />
+      <workItem from="1728287215118" duration="801000" />
     </task>
     <servers />
   </component>

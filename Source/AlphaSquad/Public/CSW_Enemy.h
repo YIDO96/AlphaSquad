@@ -48,7 +48,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	bool isBoss;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+	float attackRang;
+
+
 private:
 	TMap<FString, TSubclassOf<UCSW_EnemyCombatInterface>> StateMap;
 

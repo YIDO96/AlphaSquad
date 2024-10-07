@@ -104,17 +104,25 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category=BulletFactory)
 	TSubclassOf<class ABullet> bulletFactory;
-	
+
+	UPROPERTY(blueprintReadWrite, Category="BulletFactory")
 	bool bCanFire = true;
+	
 	bool bSniperAim = false;
 	FTimerHandle FireRateHandle;
 
+	// Effect
 	UPROPERTY(EditDefaultsOnly, Category="BulletEffect")
 	class UParticleSystem* bulletEffectFactory;
+
+	// Muzzle Fire Effect
+	UPROPERTY(EditAnywhere, Category = MuzzleEffects)
+	UParticleSystem* MuzzleFlashEffect;
 
 	UPROPERTY(EditDefaultsOnly, Category=CameraMotion)
 	TSubclassOf<class UCameraShakeBase> cameraShake;
 
+	// Sound
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
 	class USoundBase* RifleSound;
 
@@ -130,10 +138,10 @@ public:
 
 	// Health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
-	int32 hp;
+	float  hp = 100;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
-	int32 initialHp = 100;
+	float initialHp = 100;
 
 	// GameOver
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Health")
