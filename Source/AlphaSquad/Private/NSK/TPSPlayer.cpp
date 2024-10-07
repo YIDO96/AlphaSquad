@@ -83,6 +83,12 @@ ATPSPlayer::ATPSPlayer()
 
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 	InventoryComponent->MaxInventorySize = 30;
+	
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/NSK/SniperGun/Rifle.Rifle'"));
+	if (tempSound.Succeeded())
+	{
+		bulletSound = tempSound.Object;
+	}
 }
 
 void ATPSPlayer::BeginPlay()
@@ -104,6 +110,8 @@ void ATPSPlayer::BeginPlay()
 
 	FTimerHandle traceTimerHandle;
 	GetWorldTimerManager().SetTimer(traceTimerHandle, this, &ATPSPlayer::PerformInteractionTrace, 0.2f, true);
+
+	hp = initialHp;
 }
 
 void ATPSPlayer::Tick(float DeltaTime)
@@ -204,6 +212,13 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 			//FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
 			//GetWorld()->SpawnActor<ABullet>(bulletFactory,firePosition);
 
+			// CameraShake
+			auto controller = GetWorld()->GetFirstPlayerController();
+			controller->PlayerCameraManager->StartCameraShake(cameraShake);
+
+			// Sound
+			UGameplayStatics::PlaySound2D(GetWorld(), bulletSound);
+
 			FVector startPoint = cameraComp->GetComponentLocation();
 			FVector endPoint = startPoint + cameraComp->GetForwardVector() * 10000.0f;
 			FHitResult hitOut;
@@ -225,8 +240,6 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 				// 트레이스 전체 범위에 디버그 라인 그리기
 				//DrawDebugLine(GetWorld(), startPoint, endPoint, FColor::Blue, false, 5.0f, 0, 2.0f);
 			}
-
-
 
 			bCanFire = false;
 
@@ -534,4 +547,20 @@ void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
 	//	_sniperUI->RemoveFromParent();
 	//	cameraComp->SetFieldOfView(90.0f);
 	//}
+}
+
+void ATPSPlayer::OnHitEvent()
+{
+	// Damaged
+	hp--;
+	if (hp <= 0)
+	{
+		//Dead
+		OnGameOver();
+	}
+}
+
+void ATPSPlayer::OnGameOver_Implementation()
+{
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
 }
