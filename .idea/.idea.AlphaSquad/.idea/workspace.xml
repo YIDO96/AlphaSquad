@@ -13,10 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_NPC_Boss.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_NPC_Boss.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/CSW_BP_BOSS_TEST.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/CSW_BP_BOSS_TEST.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -495,6 +492,8 @@
       <workItem from="1728043859826" duration="1443000" />
       <workItem from="1728104374290" duration="158000" />
       <workItem from="1728110877279" duration="1755000" />
+      <workItem from="1728263983974" duration="88000" />
+      <workItem from="1728264113839" duration="70000" />
     </task>
     <servers />
   </component>
