@@ -120,3 +120,28 @@ void ALSH_Machine::Interact()
 	}
 }
 
+FText ALSH_Machine::GetQuestText()
+{
+	switch(NumberType)
+	{
+	case 0:
+		return FText();
+		break;
+	case 1:
+		return FText::FromString(TEXT("Kill 50 Enemy"));
+		break;
+	case 2:
+		return FText::FromString(TEXT("Kill All Enemy"));
+		break;
+	case 3:
+		return FText::FromString(TEXT("Kill 70 Enemy"));
+		break;
+	case 4:
+		return FText::FromString(TEXT("Kill Boss"));
+		break;
+	default:
+		return FText();
+		break;
+	}
+}
+
