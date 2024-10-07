@@ -104,17 +104,25 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category=BulletFactory)
 	TSubclassOf<class ABullet> bulletFactory;
-	
+
+	UPROPERTY(blueprintReadWrite, Category="BulletFactory")
 	bool bCanFire = true;
+	
 	bool bSniperAim = false;
 	FTimerHandle FireRateHandle;
 
+	// Effect
 	UPROPERTY(EditDefaultsOnly, Category="BulletEffect")
 	class UParticleSystem* bulletEffectFactory;
+
+	// Muzzle Fire Effect
+	UPROPERTY(EditAnywhere, Category = MuzzleEffects)
+	UParticleSystem* MuzzleFlashEffect;
 
 	UPROPERTY(EditDefaultsOnly, Category=CameraMotion)
 	TSubclassOf<class UCameraShakeBase> cameraShake;
 
+	// Sound
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
 	class USoundBase* RifleSound;
 

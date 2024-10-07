@@ -5,8 +5,7 @@
 #include "CSW_Enemy.h"
 #include "CSW_EnemyAnim.h"
 #include "Animation/AnimInstance.h"
-#include "TimerManager.h"
-
+#include "Kismet/GameplayStatics.h"
 
 void UCSW_State_Attack1::EnterState()
 {
@@ -15,7 +14,6 @@ void UCSW_State_Attack1::EnterState()
 	
 	// 몽타주 플레이 하기
 	ACharacter* OwnerEnemy = Cast<ACharacter>(GetOuter());
-	
 
 	if (OwnerEnemy)
 	{
@@ -23,8 +21,17 @@ void UCSW_State_Attack1::EnterState()
 
 		if (enemy && enemy->Pattern_Montage_A1)
 		{
-			
-			
+			auto* TargetActor = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+			// direct to player
+			if (TargetActor)
+			{
+				FVector Dir = TargetActor->GetActorLocation() - enemy->GetActorLocation();
+				Dir.Z = 0;
+
+				FRotator newRot = Dir.Rotation();
+				enemy->SetActorRotation(newRot);
+			}
+
 			UAnimInstance* AnimInstance = enemy->GetMesh()->GetAnimInstance();
 			if (AnimInstance)
 			{

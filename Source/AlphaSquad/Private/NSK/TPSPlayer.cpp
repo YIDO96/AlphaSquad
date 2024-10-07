@@ -98,7 +98,7 @@ ATPSPlayer::ATPSPlayer()
 		ReloadSound = tempSound2.Object;
 	}
 	// Sniper Sound
-	ConstructorHelpers::FObjectFinder<USoundBase> tempSound3(TEXT("/Script/Engine.SoundWave'/Game/MilitaryWeapSilver/Sound/SniperRifle/Wavs/SniperRifleA_Fire04.SniperRifleA_Fire04'"));
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound3(TEXT("/Script/Engine.SoundWave'/Game/MilitaryWeapSilver/Sound/Shotgun/Wavs/ShotgunA_Fire04.ShotgunA_Fire04'"));
 	if(tempSound3.Succeeded())
 	{
 		SniperSound = tempSound3.Object;
@@ -217,15 +217,24 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 		{
 			return;
 		}
-
-		// CameraShake
-		auto controller = GetWorld()->GetFirstPlayerController();
-		controller->PlayerCameraManager->StartCameraShake(cameraShake);
-
+		
+		// Rifle
 		if(bCanFire)
 		{
+			// 유탄 관련 코드
 			//FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
 			//GetWorld()->SpawnActor<ABullet>(bulletFactory,firePosition);
+
+			// Muzzle Fire Effect
+			if(gunMeshComp)
+			{
+				FTransform muzzleTransform = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlashEffect, muzzleTransform);
+			}
+
+			// CameraShake
+			auto controller = GetWorld()->GetFirstPlayerController();
+			controller->PlayerCameraManager->StartCameraShake(cameraShake);
 
 			// Sound
 			UGameplayStatics::PlaySound2D(GetWorld(), RifleSound);
@@ -256,6 +265,7 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 			GetWorldTimerManager().SetTimer(FireRateHandle,this,&ATPSPlayer::ResetFire,0.1f,false);
 		}
 	}
+	// Sniper
 	else
 	{
 		// 총알이 없다면 발사금지
@@ -264,8 +274,25 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 			return;
 		}
 
+		// 조준경 확대 시 만 사격 가능하게
+		if (bSniperAim == false)
+		{
+			return;
+		}
+
 		if(bCanFire)
 		{
+			// Muzzle Fire Effect
+			if (gunMeshComp)
+			{
+				FTransform muzzleTransform = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlashEffect, muzzleTransform);
+			}
+			
+			// CameraShake
+			auto controller = GetWorld()->GetFirstPlayerController();
+			controller->PlayerCameraManager->StartCameraShake(cameraShake);
+			
 			// Sound
 			UGameplayStatics::PlaySound2D(GetWorld(), SniperSound);
 			
@@ -340,9 +367,6 @@ void ATPSPlayer::InteractionFunc(const FInputActionValue& Value)
 
 void ATPSPlayer::ReloadFunc(const FInputActionValue& Value)
 {
-	// Sound
-	UGameplayStatics::PlaySound2D(GetWorld(), ReloadSound);
-	
 	if (bUsingGrenadeGun) // AR일때
 	{
 		if (InventoryComponent->Inventory.Contains(FName("ARMagazine")))
@@ -401,6 +425,8 @@ void ATPSPlayer::ReloadFunc(const FInputActionValue& Value)
 			}
 		}
 	}
+	// Sound
+	UGameplayStatics::PlaySound2D(GetWorld(), ReloadSound);
 }
 
 void ATPSPlayer::PerformInteractionTrace()
@@ -543,26 +569,15 @@ void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
 		bSniperAim = not bSniperAim;
 		if (bSniperAim == false)
 		{
-			//bSniperAim = true;
 			_sniperUI->AddToViewport();
 			cameraComp->SetFieldOfView(45.0f);
 		}
 		else
 		{
-			//bSniperAim = false;
 			_sniperUI->RemoveFromParent();
 			cameraComp->SetFieldOfView(90.0f);
 		}
-		//bSniperAim = true;
-		//_sniperUI->AddToViewport();
-		//cameraComp->SetFieldOfView(45.0f);
 	}
-	//else
-	//{
-	//	bSniperAim = false;
-	//	_sniperUI->RemoveFromParent();
-	//	cameraComp->SetFieldOfView(90.0f);
-	//}
 }
 
 void ATPSPlayer::OnHitEvent()
