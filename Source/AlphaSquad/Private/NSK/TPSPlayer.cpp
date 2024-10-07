@@ -130,6 +130,7 @@ void ATPSPlayer::BeginPlay()
 
 	// OnHit 바인딩
 	GetCapsuleComponent()->OnComponentHit.AddDynamic(this, &ATPSPlayer::OnHitEvent);
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ATPSPlayer::OnOverlapCapsule);
 }
 
 void ATPSPlayer::Tick(float DeltaTime)
@@ -247,7 +248,7 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 			UGameplayStatics::PlaySound2D(GetWorld(), RifleSound);
 
 			FVector startPoint = cameraComp->GetComponentLocation();
-			FVector endPoint = startPoint + cameraComp->GetForwardVector() * 10000.0f;
+			FVector endPoint = startPoint + cameraComp->GetForwardVector() * 5000.0f;
 			FHitResult hitOut;
 
 			FCollisionQueryParams traceParams;
@@ -380,6 +381,7 @@ void ATPSPlayer::SetupStimulusSource()
 
 void ATPSPlayer::InteractionFunc(const FInputActionValue& Value)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Not"));
 	// 상호작용을 수행할 액터가 캐싱되어 있는지 확인
 	if (CachedInteractableActor)
 	{
@@ -467,8 +469,9 @@ void ATPSPlayer::PerformInteractionTrace()
 	FCollisionQueryParams traceParams;
 	traceParams.AddIgnoredActor(this);
 
-	bool bHit = GetWorld()->LineTraceSingleByChannel(hitOut, startPoint, endPoint, ECC_GameTraceChannel2, traceParams);
-
+	// 이게 처음상태
+	//bool bHit = GetWorld()->LineTraceSingleByChannel(hitOut, startPoint, endPoint, ECC_GameTraceChannel4, traceParams);
+	bool bHit = GetWorld()->LineTraceSingleByProfile(hitOut, startPoint, endPoint, "BlockAllDynamic", traceParams);
 	// bHit == true : Trace 결과 값이 있다면
 	if (bHit)
 	{
@@ -611,6 +614,7 @@ void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
 
 void ATPSPlayer::OnHitEvent(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	//UE_LOG(LogTemp, Warning, TEXT("OtherActor : %s"), *OtherActor->GetName());
 	// 충돌한 액터가 적총알일때?
 	if (OtherActor->IsA(ACSW_Bullet::StaticClass())) // 플레이러 캡슐이랑 맞은 OtherActor가 총알클래스가 맞는지 먼저 판단하고
 	{
@@ -620,7 +624,29 @@ void ATPSPlayer::OnHitEvent(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	}
 
 	// Damaged
-	hp--;
+
+	if (hp <= 0)
+	{
+		//Dead
+		OnGameOver();
+	}
+}
+
+void ATPSPlayer::OnOverlapCapsule(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	UE_LOG(LogTemp, Warning, TEXT("OtherActor : %s"), *OtherActor->GetName());
+	// 충돌한 액터가 적총알일때?
+	if (OtherActor->IsA(ACSW_Bullet::StaticClass())) // 플레이러 캡슐이랑 맞은 OtherActor가 총알클래스가 맞는지 먼저 판단하고
+	{
+		// 총알클래스라면 캐스팅
+		ACSW_Bullet* bullet = Cast<ACSW_Bullet>(OtherActor);
+		hp -= bullet->Damage;//?
+
+		bullet->Destroy();
+	}
+
+	// Damaged
+
 	if (hp <= 0)
 	{
 		//Dead

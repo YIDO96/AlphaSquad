@@ -61,5 +61,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
 	class UStaticMeshComponent* Mesh;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+	class UBoxComponent* BoxComp_PlayerStartPoint;
 };

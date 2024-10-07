@@ -17,6 +17,8 @@ ALSH_Machine::ALSH_Machine()
 
 	BoxComp = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComp"));
 	SetRootComponent(BoxComp);
+	BoxComp_PlayerStartPoint = CreateDefaultSubobject<UBoxComponent>(TEXT("PlayerStartPoint"));
+	BoxComp_PlayerStartPoint->SetupAttachment(BoxComp);
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(TEXT("Interaction"));
 	CameraComp->SetupAttachment(RootComponent);
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));

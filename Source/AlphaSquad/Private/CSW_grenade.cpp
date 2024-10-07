@@ -24,7 +24,7 @@ ACSW_grenade::ACSW_grenade()
 	movementComp->ProjectileGravityScale = 1.0f;
 	movementComp->InitialSpeed = 1000.0f;
 	movementComp->MaxSpeed = 1000.0f;
-	movementComp->bRotationFollowsVelocity = true;
+	movementComp->bRotationFollowsVelocity = false;
 	movementComp->bShouldBounce = false;
 
 }

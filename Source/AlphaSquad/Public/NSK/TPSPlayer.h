@@ -136,6 +136,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void OnHitEvent(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void OnOverlapCapsule(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	// Health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float  hp = 100;

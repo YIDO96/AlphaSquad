@@ -23,9 +23,10 @@ void UCSW_ThrowGrenadeNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp,
                 (
                     GrenadeClass,
                     MeshComp->GetSocketLocation(TEXT("hand_rSocket")),
-                    MeshComp->GetSocketRotation(TEXT("hand_rSocket"))
+                    FRotator(MeshComp->GetComponentRotation().Pitch + 45, MeshComp->GetComponentRotation().Yaw + 90, MeshComp->GetComponentRotation().Roll)
                 );
 
+                
         }
         else
         {
