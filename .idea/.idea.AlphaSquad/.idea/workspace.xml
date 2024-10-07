@@ -13,9 +13,63 @@
   <component name="ChangeListManager">
     <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/Anim/Animations/Mixamo/Walk/IWalk_Forward.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/Anim/Animations/Mixamo/Walk/IWalk_Forward.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_CameraShake.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_CameraShake.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSPlayer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_NPC_Boss.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_NPC_Boss.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/CSW_BP_BOSS_TEST.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/CSW_BP_BOSS_TEST.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_PunchCombo.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Jump_NotRoot.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Jump_NotRoot.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Drop_Kick.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Elbow_Punching.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Flying_Knee_Punch_Combo.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Butterfly_Twirl.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Flip_Kick__1_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Flip_Kick_mixamo_com.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Flying_Kick.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Inverted_Double_Kick_To_Kip_Up.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_KickCombo_ForPhase1.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Kicking.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Kicking__1_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Kicking__2_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Kicking__3_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Kicking__4_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Roll_Kicking.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Scissor_Kick.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Boss_Spin_Flip_Kick.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Butterfly_Twirl.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_1001_Diffuse.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_1001_Glossiness.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_1001_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_1001_Specular.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_1002_Diffuse.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_1002_Emissive.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_1002_Glossiness.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_1002_Normal.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_1002_Specular.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_body.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Ch15_body1.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Flip_Kick__1_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Flip_Kick_mixamo_com.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Flying_Kick.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Inverted_Double_Kick_To_Kip_Up.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Kicking.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Kicking__1_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Kicking__2_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Kicking__3_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Kicking__4_.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Punch_Combo.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Punch_Combo_PhysicsAsset.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Punch_Combo_Skeleton.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Roll_Kicking.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Scissor_Kick.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Kick_Combo/Punch_Combo/Spin_Flip_Kick.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Punch_Combo_1212.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Running_Forward_Flip.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack1.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack2.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack2.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack3.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack3.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack4.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack4.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack5.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AlphaSquad/Private/CSW_State_bAttack5.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +80,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../UE_5.4/Engine/Source/Programs/UnrealBuildTool/System/ModuleDescriptor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../UE_5.4/Engine/Source/Runtime/Engine/Classes/Camera/PlayerCameraManager.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Developer/Windows/LiveCodingServer/Private/External/LC_ChangeNotification.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -38,19 +91,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;C++ Project.AlphaSquad.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;NSK&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "C++ Project.AlphaSquad.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "SOS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="C++ Project.AlphaSquad">
     <configuration name="AlphaSquad" type="CppProject" factoryName="C++ Project">
       <configuration_1>
@@ -498,6 +551,7 @@
       <workItem from="1728264450058" duration="6697000" />
       <workItem from="1728275271982" duration="8666000" />
       <workItem from="1728287215118" duration="801000" />
+      <workItem from="1728297719202" duration="4366000" />
     </task>
     <servers />
   </component>
