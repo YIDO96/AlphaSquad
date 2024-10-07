@@ -5,7 +5,7 @@
 #include "CSW_Enemy.h"
 #include "CSW_EnemyAnim.h"
 #include "Animation/AnimInstance.h"
-#include "TimerManager.h"
+#include "Kismet/GameplayStatics.h"
 
 
 void UCSW_State_Attack3::EnterState()
@@ -20,6 +20,17 @@ void UCSW_State_Attack3::EnterState()
 
 		if (enemy && enemy->Pattern_Montage_A3)
 		{
+			auto* TargetActor = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+			// direct to player
+			if (TargetActor)
+			{
+				FVector Dir = TargetActor->GetActorLocation() - enemy->GetActorLocation();
+				Dir.Z = 0;
+
+				FRotator newRot = Dir.Rotation();
+				enemy->SetActorRotation(newRot);
+			}
+
 			UAnimInstance* AnimInstance = enemy->GetMesh()->GetAnimInstance();
 			if (AnimInstance)
 			{
