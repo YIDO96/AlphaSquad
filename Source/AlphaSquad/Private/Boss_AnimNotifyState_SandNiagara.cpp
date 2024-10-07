@@ -8,7 +8,7 @@ AActor* SpawnedActor = nullptr;
 void UBoss_AnimNotifyState_SandNiagara::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,
 	float TotalDuration, const FAnimNotifyEventReference& EventReference)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Let's Combo Pang!"));
+	//UE_LOG(LogTemp, Warning, TEXT("Let's Combo Pang!"));
 	
 	if (MeshComp && MeshComp->GetWorld())
 	{
