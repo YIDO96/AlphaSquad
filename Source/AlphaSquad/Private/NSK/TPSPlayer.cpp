@@ -34,8 +34,8 @@ ATPSPlayer::ATPSPlayer()
 	springArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
 	//springArmComp->SetupAttachment(RootComponent);
 	springArmComp->SetupAttachment(GetMesh());
-	springArmComp->SetRelativeLocationAndRotation(FVector(0, 0, 50), FRotator(-20, 0, 0));
-	springArmComp->TargetArmLength = 450;
+	springArmComp->SetRelativeLocationAndRotation(FVector(-35, 0, 150), FRotator(0, 0, 0));
+	springArmComp->TargetArmLength = 120;
 	springArmComp->bUsePawnControlRotation = true;
 
 	// Camera Component
@@ -83,14 +83,28 @@ ATPSPlayer::ATPSPlayer()
 
 	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 	InventoryComponent->MaxInventorySize = 30;
-	
+
+	// Rifle Sound
 	ConstructorHelpers::FObjectFinder<USoundBase> tempSound(TEXT("/Script/Engine.SoundWave'/Game/NSK/SniperGun/Rifle.Rifle'"));
 	if (tempSound.Succeeded())
 	{
-		bulletSound = tempSound.Object;
+		RifleSound = tempSound.Object;
+	}
+
+	// Reload Sound
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound2(TEXT("/Script/Engine.SoundWave'/Game/MilitaryWeapSilver/Sound/Rifle/Wavs/Rifle_Reload02.Rifle_Reload02'"));
+	if(tempSound2.Succeeded())
+	{
+		ReloadSound = tempSound2.Object;
+	}
+	// Sniper Sound
+	ConstructorHelpers::FObjectFinder<USoundBase> tempSound3(TEXT("/Script/Engine.SoundWave'/Game/MilitaryWeapSilver/Sound/SniperRifle/Wavs/SniperRifleA_Fire04.SniperRifleA_Fire04'"));
+	if(tempSound3.Succeeded())
+	{
+		SniperSound = tempSound3.Object;
 	}
 }
-
+	
 void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
@@ -141,12 +155,9 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 		EnhancedInputComponent->BindAction(SniperGunIA, ETriggerEvent::Started, this, &ATPSPlayer::ChangeToSniperGun);
 
 		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Started, this, &ATPSPlayer::SniperAim);
-		//EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Completed, this, &ATPSPlayer::SniperAim);
 
 		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &ATPSPlayer::InteractionFunc);
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Started, this, &ATPSPlayer::ReloadFunc);
-
-		//EnhancedInputComponent->BindAction(RollIA, ETriggerEvent::Started, this, &ATPSPlayer::StartRoll);
 	}
 }
 
@@ -207,17 +218,17 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 			return;
 		}
 
+		// CameraShake
+		auto controller = GetWorld()->GetFirstPlayerController();
+		controller->PlayerCameraManager->StartCameraShake(cameraShake);
+
 		if(bCanFire)
 		{
 			//FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
 			//GetWorld()->SpawnActor<ABullet>(bulletFactory,firePosition);
 
-			// CameraShake
-			auto controller = GetWorld()->GetFirstPlayerController();
-			controller->PlayerCameraManager->StartCameraShake(cameraShake);
-
 			// Sound
-			UGameplayStatics::PlaySound2D(GetWorld(), bulletSound);
+			UGameplayStatics::PlaySound2D(GetWorld(), RifleSound);
 
 			FVector startPoint = cameraComp->GetComponentLocation();
 			FVector endPoint = startPoint + cameraComp->GetForwardVector() * 10000.0f;
@@ -230,10 +241,9 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 
 			if (bHit)
 			{
-				// 히트된 위치까지의 디버그 라인 그리기
-				//DrawDebugLine(GetWorld(), startPoint, hitOut.ImpactPoint, FColor::Red, false, 5.0f, 0, 2.0f);
-				// 히트된 위치에 디버그 스피어 그리기
-				DrawDebugSphere(GetWorld(), hitOut.ImpactPoint, 10.0f, 12, FColor::Yellow, false, 5.0f);
+					FTransform bulletTrans;
+					bulletTrans.SetLocation(hitOut.ImpactPoint);
+					UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectFactory, bulletTrans);
 			}
 			else
 			{
@@ -256,6 +266,9 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 
 		if(bCanFire)
 		{
+			// Sound
+			UGameplayStatics::PlaySound2D(GetWorld(), SniperSound);
+			
 			FVector startPos = cameraComp->GetComponentLocation();
 			FVector endPos = cameraComp->GetComponentLocation() + cameraComp->GetForwardVector() * 20000;
 			FHitResult hitInfo;
@@ -327,6 +340,9 @@ void ATPSPlayer::InteractionFunc(const FInputActionValue& Value)
 
 void ATPSPlayer::ReloadFunc(const FInputActionValue& Value)
 {
+	// Sound
+	UGameplayStatics::PlaySound2D(GetWorld(), ReloadSound);
+	
 	if (bUsingGrenadeGun) // AR일때
 	{
 		if (InventoryComponent->Inventory.Contains(FName("ARMagazine")))
