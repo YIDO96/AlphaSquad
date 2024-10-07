@@ -15,7 +15,7 @@ class ALPHASQUAD_API ACSW_ActorManager : public AActor
 public:	
 	// Sets default values for this actor's properties
 	ACSW_ActorManager();
-
+	
 	UPROPERTY(EditAnywhere,  Category = "Actors")
 	TSubclassOf<AActor> bulletActor;
 	UPROPERTY(EditAnywhere, Category = "Actors")
