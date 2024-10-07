@@ -138,10 +138,10 @@ public:
 
 	// Health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
-	int32 hp;
+	float  hp = 100;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
-	int32 initialHp = 100;
+	float initialHp = 100;
 
 	// GameOver
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Health")

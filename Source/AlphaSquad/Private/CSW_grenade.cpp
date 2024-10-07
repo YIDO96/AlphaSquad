@@ -17,11 +17,16 @@ ACSW_grenade::ACSW_grenade()
 
 	collisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComp"));
 	RootComponent = collisionComp;
-
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BodyMeshComp"));
 	MeshComp->SetupAttachment(collisionComp);
-
 	movementComp = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("MovementComp"));
+
+	movementComp->ProjectileGravityScale = 1.0f;
+	movementComp->InitialSpeed = 1000.0f;
+	movementComp->MaxSpeed = 1000.0f;
+	movementComp->bRotationFollowsVelocity = true;
+	movementComp->bShouldBounce = false;
+
 }
 
 // Called when the game starts or when spawned

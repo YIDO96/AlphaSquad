@@ -30,7 +30,7 @@ void ACSW_Bullet::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/*
+	
 	FTimerHandle deathTimer;
 	GetWorld()->GetTimerManager().SetTimer
 	(
@@ -39,7 +39,7 @@ void ACSW_Bullet::BeginPlay()
 		2.0f,
 		false
 	);
-	*/
+	
 
 }
 

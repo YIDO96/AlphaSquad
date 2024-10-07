@@ -4,21 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
-#include "CSW_ActorManager.h"
-#include "CSW_ShootingAnimNotifyState.generated.h"
+#include "CSW_ThrowGrenadeNotifyState.generated.h"
+
 /**
  * 
  */
 UCLASS()
-class ALPHASQUAD_API UCSW_ShootingAnimNotifyState : public UAnimNotifyState
+class ALPHASQUAD_API UCSW_ThrowGrenadeNotifyState : public UAnimNotifyState
 {
 	GENERATED_BODY()
-
-public:
+	
+	public:
 	virtual void NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration, const FAnimNotifyEventReference& EventReference) override;
 	virtual void NotifyTick(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float FrameDeltaTime, const FAnimNotifyEventReference& EventReference) override;
 	virtual void NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, const FAnimNotifyEventReference& EventReference) override;
 
 private:
-	TSubclassOf<AActor> BulletClass;
+	TSubclassOf<AActor> GrenadeClass;
 };
