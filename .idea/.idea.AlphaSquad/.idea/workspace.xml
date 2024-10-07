@@ -13,9 +13,12 @@
   <component name="ChangeListManager">
     <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/Anim/Animations/Mixamo/Walk/IWalk_Forward.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/Anim/Animations/Mixamo/Walk/IWalk_Forward.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_CameraShake.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_CameraShake.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSPlayer.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/NSK/BluePrint/BP_TPSPlayer.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_BossStanding_1H_Magic_Attack_03_Anim_mixamo_com_Montage.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_BossStanding_2H_Magic_Area_Attack_01_Montage.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_BossStanding_Taunt_Battlecry_Montage.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/AlphaSquad/Private/Boss_AnimNotifyState_SandNiagara.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AlphaSquad/Private/Boss_AnimNotifyState_SandNiagara.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +29,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/../UE_5.4/Engine/Source/Programs/UnrealBuildTool/System/ModuleDescriptor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../UE_5.4/Engine/Source/Runtime/Engine/Classes/Camera/PlayerCameraManager.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../../../Program Files/Epic Games/UE_5.4/Engine/Source/Developer/Windows/LiveCodingServer/Private/External/LC_ChangeNotification.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -42,7 +44,7 @@
   &quot;keyToString&quot;: {
     &quot;C++ Project.AlphaSquad.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;NSK&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;SOS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -498,6 +500,8 @@
       <workItem from="1728264450058" duration="6697000" />
       <workItem from="1728275271982" duration="8666000" />
       <workItem from="1728287215118" duration="801000" />
+      <workItem from="1728297719202" duration="4366000" />
+      <workItem from="1728303396934" duration="2663000" />
     </task>
     <servers />
   </component>
