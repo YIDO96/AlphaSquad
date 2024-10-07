@@ -71,6 +71,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	class UInputAction* SniperIA;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* GranadeIA;
+	
 	UPROPERTY(BlueprintReadOnly, Category="Input")
 	bool bUsingGrenadeGun = true;
 	
@@ -89,6 +92,10 @@ public:
 	void InputFire(const FInputActionValue& Value);
 	void ResetFire();
 	void SniperAim(const struct FInputActionValue& inputValue);
+	void ThrowGranade(const struct FInputActionValue& inputValue);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+	UAnimMontage* GranadeMontage;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="GunMesh")
 	class USkeletalMeshComponent* gunMeshComp;

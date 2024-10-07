@@ -158,6 +158,8 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &ATPSPlayer::InteractionFunc);
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Started, this, &ATPSPlayer::ReloadFunc);
+
+		EnhancedInputComponent->BindAction(GranadeIA, ETriggerEvent::Started, this, &ATPSPlayer::ThrowGranade);
 	}
 }
 
@@ -578,6 +580,11 @@ void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
 			cameraComp->SetFieldOfView(90.0f);
 		}
 	}
+}
+
+void ATPSPlayer::ThrowGranade(const struct FInputActionValue& inputValue)
+{
+	PlayAnimMontage(GranadeMontage);
 }
 
 void ATPSPlayer::OnHitEvent()
