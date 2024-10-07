@@ -116,7 +116,13 @@ public:
 	TSubclassOf<class UCameraShakeBase> cameraShake;
 
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
-	class USoundBase* bulletSound;
+	class USoundBase* RifleSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = Sound)
+	class USoundBase* SniperSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = Sound)
+	USoundBase* ReloadSound;
 
 	// Hit
 	UFUNCTION(BlueprintCallable, Category = "Health")
