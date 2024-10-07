@@ -11,10 +11,11 @@
 #include <Kismet/GameplayStatics.h>
 #include "Perception\AIPerceptionStimuliSourceComponent.h"
 #include "Perception\AISense_Sight.h"
-
+#include "Components/CapsuleComponent.h"
 #include "LSH/InventoryComponent.h"
 #include "LSH/LSH_InteractableInterface.h"
-
+#include "CSW_Enemy.h"
+#include "CSW_Bullet.h"
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -126,6 +127,9 @@ void ATPSPlayer::BeginPlay()
 	GetWorldTimerManager().SetTimer(traceTimerHandle, this, &ATPSPlayer::PerformInteractionTrace, 0.2f, true);
 
 	hp = initialHp;
+
+	// OnHit 바인딩
+	GetCapsuleComponent()->OnComponentHit.AddDynamic(this, &ATPSPlayer::OnHitEvent);
 }
 
 void ATPSPlayer::Tick(float DeltaTime)
@@ -210,6 +214,7 @@ void ATPSPlayer::TPSJump(const FInputActionValue& Value)
 
 void ATPSPlayer::InputFire(const FInputActionValue& Value)
 {
+	// AR일때
 	if(bUsingGrenadeGun)
 	{
 		// 총알이 없다면 발사금지
@@ -225,7 +230,9 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 			//FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
 			//GetWorld()->SpawnActor<ABullet>(bulletFactory,firePosition);
 
-			// Muzzle Fire Effect
+			DamageValue = 10.0f;
+
+			// Muzzle Fire Effect 총구 위치에 이펙트 생성
 			if(gunMeshComp)
 			{
 				FTransform muzzleTransform = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
@@ -246,13 +253,24 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 			FCollisionQueryParams traceParams;
 			traceParams.AddIgnoredActor(this);
 
-			bool bHit = GetWorld()->LineTraceSingleByChannel(hitOut, startPoint, endPoint, ECC_GameTraceChannel2, traceParams);
 
+			bool bHit = GetWorld()->LineTraceSingleByChannel(hitOut, startPoint, endPoint,ECollisionChannel::ECC_EngineTraceChannel2 , traceParams);
 			if (bHit)
 			{
+			// 여길 안들어온다?
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hit!"));
+					// 히트된 위치에 이펙트 생성
 					FTransform bulletTrans;
 					bulletTrans.SetLocation(hitOut.ImpactPoint);
 					UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectFactory, bulletTrans);
+
+					// hitOut의 액터가 Enemy라면
+					if (hitOut.GetActor()->IsA(ACSW_Enemy::StaticClass()))
+					{
+						ACSW_Enemy* Enemy = Cast<ACSW_Enemy>(hitOut.GetActor());
+
+						Enemy->OnTakeDamage(DamageValue); // 10대 맞아야 적 죽음
+					}
 			}
 			else
 			{
@@ -265,7 +283,7 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 			GetWorldTimerManager().SetTimer(FireRateHandle,this,&ATPSPlayer::ResetFire,0.1f,false);
 		}
 	}
-	// Sniper
+	// Sniper일때
 	else
 	{
 		// 총알이 없다면 발사금지
@@ -282,6 +300,9 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 
 		if(bCanFire)
 		{
+			// 데미지 값
+			DamageValue = 50.0f;
+
 			// Muzzle Fire Effect
 			if (gunMeshComp)
 			{
@@ -307,6 +328,14 @@ void ATPSPlayer::InputFire(const FInputActionValue& Value)
 				FTransform bulletTrans;
 				bulletTrans.SetLocation(hitInfo.ImpactPoint);
 				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectFactory, bulletTrans);
+
+				// hitOut의 액터가 Enemy라면
+				if (hitInfo.GetActor()->IsA(ACSW_Enemy::StaticClass()))
+				{
+					ACSW_Enemy* Enemy = Cast<ACSW_Enemy>(hitInfo.GetActor());
+
+					Enemy->OnTakeDamage(DamageValue); // 10대 맞아야 적 죽음
+				}
 			}
 
 			if (bHit)
@@ -580,8 +609,16 @@ void ATPSPlayer::SniperAim(const struct FInputActionValue& inputValue)
 	}
 }
 
-void ATPSPlayer::OnHitEvent()
+void ATPSPlayer::OnHitEvent(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	// 충돌한 액터가 적총알일때?
+	if (OtherActor->IsA(ACSW_Bullet::StaticClass())) // 플레이러 캡슐이랑 맞은 OtherActor가 총알클래스가 맞는지 먼저 판단하고
+	{
+		// 총알클래스라면 캐스팅
+		ACSW_Bullet* bullet = Cast<ACSW_Bullet>(OtherActor);
+		hp -= bullet->Damage;//?
+	}
+
 	// Damaged
 	hp--;
 	if (hp <= 0)

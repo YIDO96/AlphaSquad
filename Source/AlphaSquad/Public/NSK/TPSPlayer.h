@@ -116,7 +116,7 @@ public:
 	class UParticleSystem* bulletEffectFactory;
 
 	// Muzzle Fire Effect
-	UPROPERTY(EditAnywhere, Category = MuzzleEffects)
+	UPROPERTY(EditAnywhere, Category = "MuzzleEffects")
 	UParticleSystem* MuzzleFlashEffect;
 
 	UPROPERTY(EditDefaultsOnly, Category=CameraMotion)
@@ -134,7 +134,7 @@ public:
 
 	// Hit
 	UFUNCTION(BlueprintCallable, Category = "Health")
-	void OnHitEvent();
+	void OnHitEvent(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	// Health
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
@@ -152,6 +152,7 @@ private:
 	class UAIPerceptionStimuliSourceComponent* StimulusSource;
 	void SetupStimulusSource();
 
+	float DamageValue;
 
 
 	/* 인벤토리*/
