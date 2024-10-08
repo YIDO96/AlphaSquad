@@ -18,27 +18,9 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UBorder* B_MainStartUI;
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* Btn_Start;
-
-	UPROPERTY(meta = (BindWidget))
-	class UButton* Btn_Exit;
-
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* TB_Start;
-
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* TB_Exit;
-
 	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Audio")
 	//UAudioComponent* AudioComponent;
 
 protected:
 	virtual void NativeConstruct() override;
-
-	UFUNCTION()
-	void OnStartButtonClicked();
-
-	UFUNCTION()
-	void OnExitButtonClicked();
 };

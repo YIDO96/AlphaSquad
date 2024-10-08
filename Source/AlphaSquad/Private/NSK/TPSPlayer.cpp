@@ -161,6 +161,8 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 		EnhancedInputComponent->BindAction(SniperIA, ETriggerEvent::Started, this, &ATPSPlayer::SniperAim);
 
+		EnhancedInputComponent->BindAction(HealingIA, ETriggerEvent::Started, this, &ATPSPlayer::Healing);
+
 		EnhancedInputComponent->BindAction(InteractionAction, ETriggerEvent::Started, this, &ATPSPlayer::InteractionFunc);
 		EnhancedInputComponent->BindAction(ReloadAction, ETriggerEvent::Started, this, &ATPSPlayer::ReloadFunc);
 	}
@@ -211,6 +213,26 @@ void ATPSPlayer::Turn(const FInputActionValue& Value)
 void ATPSPlayer::TPSJump(const FInputActionValue& Value)
 {
 	Jump();
+}
+
+void ATPSPlayer::Healing(const FInputActionValue& Value)
+{
+	if (InventoryComponent->Inventory.Contains(FName("Band")) == false)
+	{
+		return;
+	}
+
+	if (InventoryComponent->Inventory[FName("Band")].Quantity <= 0)
+	{
+		return;
+	}
+
+	InventoryComponent->Inventory[FName("Band")].Quantity--;
+	hp += 15;
+	if (hp > initialHp)
+	{
+		hp = initialHp;
+	}
 }
 
 void ATPSPlayer::InputFire(const FInputActionValue& Value)
