@@ -13,7 +13,6 @@
 #include "CSW_State_bAttack5.h"
 #include "CSW_State_Idle.h"
 #include "TimerManager.h"
-
 #include "NSK/TPSPlayer.h"
 #include "Kismet\GameplayStatics.h"
 
