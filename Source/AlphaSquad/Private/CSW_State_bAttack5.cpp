@@ -6,6 +6,7 @@
 #include "CSW_EnemyAnim.h"
 #include "Animation/AnimInstance.h"
 #include "TimerManager.h"
+#include "Kismet/GameplayStatics.h"
 
 
 void UCSW_State_bAttack5::EnterState()
@@ -13,7 +14,7 @@ void UCSW_State_bAttack5::EnterState()
 	UE_LOG(LogTemp, Warning, TEXT("Attack1 Enter"));
 
 
-	// ¸ùÅ¸ÁÖ ÇÃ·¹ÀÌ ÇÏ±â
+	// ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½
 	ACharacter* OwnerEnemy = Cast<ACharacter>(GetOuter());
 
 
@@ -23,7 +24,16 @@ void UCSW_State_bAttack5::EnterState()
 
 		if (enemy && enemy->Pattern_Montage_B5)
 		{
+			auto* TargetActor = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+			// direct to player
+			if (TargetActor)
+			{
+				FVector Dir = TargetActor->GetActorLocation() - enemy->GetActorLocation();
+				Dir.Z = 0;
 
+				FRotator newRot = Dir.Rotation();
+				enemy->SetActorRotation(newRot);
+			}
 
 			UAnimInstance* AnimInstance = enemy->GetMesh()->GetAnimInstance();
 			if (AnimInstance)
