@@ -13,6 +13,8 @@
 #include "CSW_State_bAttack5.h"
 #include "CSW_State_Idle.h"
 #include "TimerManager.h"
+
+#include "NSK/TPSPlayer.h"
 #include "Kismet\GameplayStatics.h"
 
 
@@ -182,11 +184,12 @@ void ACSW_Enemy::OnPatternExcutionComplate()
 			float Dis = FVector::Dist(GetActorLocation(), player->GetActorLocation());
 			if (Dis < attackRang)
 			{
-				NextPatternIndex = 0;
-				ExcutePatternWithDelay(NextPatternIndex);
+				CombateStateExcute();
 			}
 			else
 			{
+				GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+
 				UE_LOG(LogTemp, Warning, TEXT("Player is out of Range."));
 			}
 		}
@@ -203,7 +206,16 @@ void ACSW_Enemy::OnTakeDamage(float Damage)
 	Hp -= Damage;
 	if (Hp <= 0)
 	{
-		Destroy();
+		auto* playerClass = Cast<ATPSPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), ATPSPlayer::StaticClass()));
+
+
+		if (playerClass)
+		{
+			playerClass->killCont++;
+			playerClass->CurrentMoney += EnemyMoney;
+			Destroy();
+		}
+
 	}
 }
 

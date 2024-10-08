@@ -20,6 +20,9 @@ public:
 	// Sets default values for this character's properties
 	ATPSPlayer();
 
+	UPROPERTY(VisibleAnywhere, Category = "kill")
+	int32 killCont = 0;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

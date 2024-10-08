@@ -53,6 +53,8 @@ void ACSW_grenade::Tick(float DeltaTime)
 
 void ACSW_grenade::ExplostionGrenade()
 {
+	UGameplayStatics::PlaySound2D(GetWorld(), exploreSound);
+
 	if (grenade_effect)
 	{
 		UGameplayStatics::SpawnEmitterAtLocation
