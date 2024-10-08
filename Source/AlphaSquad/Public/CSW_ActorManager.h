@@ -34,6 +34,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sound)
 	class USoundBase* grenadeSound;
 
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
