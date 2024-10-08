@@ -52,6 +52,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
 	float attackRang;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
+	float Hp = 100;
+
+	// 데미지 받았을때 ?
+	UFUNCTION()
+	void OnTakeDamage(float Damage);
 
 private:
 	TMap<FString, TSubclassOf<UCSW_EnemyCombatInterface>> StateMap;
@@ -63,6 +69,8 @@ private:
 	
 	TArray<FString> ParsedPatterns;
 
+
+	
 
 public:
 

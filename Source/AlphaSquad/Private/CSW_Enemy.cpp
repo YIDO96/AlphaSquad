@@ -198,6 +198,15 @@ void ACSW_Enemy::OnPatternExcutionComplate()
 }
 
 
+void ACSW_Enemy::OnTakeDamage(float Damage)
+{
+	Hp -= Damage;
+	if (Hp <= 0)
+	{
+		Destroy();
+	}
+}
+
 TArray<FString> ACSW_Enemy::ParsePatternString(const FString& PatternString)
 {
 	TArray<FString> m_ParsedPatterns;

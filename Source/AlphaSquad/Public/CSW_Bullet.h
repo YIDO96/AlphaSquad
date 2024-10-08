@@ -34,4 +34,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "bullet")
 	float bullet_Speed;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "bullet")
+	float Damage = 10;
 };

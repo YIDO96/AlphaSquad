@@ -32,6 +32,13 @@ public:
 	TArray<FName> ItemOnSale;
 
 
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Shop")
+	int32 NumberType;
+
+	UFUNCTION(BlueprintCallable)
+	FText GetQuestText();
+
+
 protected:
 	UPROPERTY(EditAnywhere, Category = "Interaction")
 	TSubclassOf<UUserWidget> InteractionWidgetClass;
@@ -53,4 +60,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
 	class UStaticMeshComponent* Mesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+	class UBoxComponent* BoxComp_PlayerStartPoint;
 };
