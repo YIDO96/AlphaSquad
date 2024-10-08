@@ -57,6 +57,7 @@ FItemData UInventoryComponent::LoadItemFromDataTable(FName ItemRowName)
 
 void UInventoryComponent::AddItemToInventory(FName ItemRowName, int32 Quantity)
 {
+	// 인벤토리가 가득 찼다면
 	if (IsInventoryFull())
 	{
 		// 로그 출력후 함수 return
@@ -65,27 +66,35 @@ void UInventoryComponent::AddItemToInventory(FName ItemRowName, int32 Quantity)
 	}
 
 
-
+	// 해당 Name의 아이템이 인벤토리에 존재한다면
 	if (Inventory.Contains(ItemRowName))
 	{
+	    // 해당 아이템의 정보를 가져옴
 		FInventoryItem& ExistingItem = Inventory[ItemRowName];
+		// 해당 아이템의 최대 스택 수가 현재 수량보다 크다면
 		if (ExistingItem.ItemData.MaxStackCount > ExistingItem.Quantity)
 		{
+			// 현재 수량에 추가하려는 수량을 더함
 			ExistingItem.Quantity += Quantity;
 		}
 	}
+	// 해당 Name의 아이템이 인벤토리에 존재하지 않는다면
 	else
 	{
+		// ItemDataTable이 유효하다면
 		if (ItemDataTable)
 		{
+			// 해당 Name의 아이템 정보를 가져옴
 			FItemData ItemData = LoadItemFromDataTable(ItemRowName);
 			FInventoryItem NewItem;
 			NewItem.ItemData = ItemData;
 
+			// 해당 아이템의 최대 스택 수가 1이라면 수량을 1로 설정
 			if (ItemData.MaxStackCount == 1)
 			{
 				NewItem.Quantity = 1;
 			}
+			// 해당 아이템의 최대 스택 수가 추가하려는 수량보다 크다면 수량을 추가하려는 수량으로 설정
 			else if (ItemData.MaxStackCount > Quantity)
 			{
 				NewItem.Quantity = Quantity;
@@ -96,6 +105,7 @@ void UInventoryComponent::AddItemToInventory(FName ItemRowName, int32 Quantity)
 				return;
 			}
 
+			// 인벤토리에 해당 아이템 추가
 			Inventory.Add(ItemRowName, NewItem);
 
 		}
