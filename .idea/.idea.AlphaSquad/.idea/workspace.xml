@@ -13,12 +13,15 @@
   <component name="ChangeListManager">
     <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_Explosion_Fire1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_Explosion_Fire1.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_Explosion_Fire2.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_Explosion_Fire2.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_Explosion_Sand1.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_Explosion_Sand1.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_BossStanding_1H_Magic_Attack_03_Anim_mixamo_com_Montage.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_BossStanding_2H_Magic_Area_Attack_01_Montage.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_BossStanding_Taunt_Battlecry_Montage.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AlphaSquad/Private/Boss_AnimNotifyState_SandNiagara.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AlphaSquad/Private/Boss_AnimNotifyState_SandNiagara.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_C2_Montage.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_C2_Montage.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Combo/AM_Flying_Knee_Punch_Combo_Montage_R3.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Combo/AM_Flying_Knee_Punch_Combo_Montage_R3.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Combo/Flying_Knee_Punch_Combo.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_Rolling_Combo/Flying_Knee_Punch_Combo.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -502,6 +505,8 @@
       <workItem from="1728287215118" duration="801000" />
       <workItem from="1728297719202" duration="4366000" />
       <workItem from="1728303396934" duration="2663000" />
+      <workItem from="1728306501536" duration="501000" />
+      <workItem from="1728349471928" duration="2055000" />
     </task>
     <servers />
   </component>
