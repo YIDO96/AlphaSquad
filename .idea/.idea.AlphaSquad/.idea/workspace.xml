@@ -11,15 +11,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AlphaSquad/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BP_bossTEST.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/SOS/AI/BossTestMap.umap" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_BossStanding_1H_Magic_Attack_03_Anim_mixamo_com_Montage.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_BossStanding_2H_Magic_Area_Attack_01_Montage.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/SOS/AI/Sci_Fi_Character_08/Demo/Animation/Boss_AreaAttack/AM_BossStanding_Taunt_Battlecry_Montage.uasset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/AlphaSquad/Private/Boss_AnimNotifyState_SandNiagara.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/AlphaSquad/Private/Boss_AnimNotifyState_SandNiagara.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="e78f2c60-668b-4198-99d5-b3061a3f15d2" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,19 +32,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;C++ Project.AlphaSquad.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;SOS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "C++ Project.AlphaSquad.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "NSK",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="C++ Project.AlphaSquad">
     <configuration name="AlphaSquad" type="CppProject" factoryName="C++ Project">
       <configuration_1>
@@ -502,6 +494,7 @@
       <workItem from="1728287215118" duration="801000" />
       <workItem from="1728297719202" duration="4366000" />
       <workItem from="1728303396934" duration="2663000" />
+      <workItem from="1728348644691" duration="47000" />
     </task>
     <servers />
   </component>
