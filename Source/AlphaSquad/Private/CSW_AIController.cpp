@@ -37,11 +37,11 @@ void ACSW_AIController::SetupPerceptionSystem()
 	if (SightConfig)
 	{
 		SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Comp")));
-		SightConfig->SightRadius = 1000.0f;
-		SightConfig->LoseSightRadius = SightConfig->SightRadius + 200.0f;
+		SightConfig->SightRadius = 4500.0f;
+		SightConfig->LoseSightRadius = SightConfig->SightRadius + 500.0f;
 		SightConfig->PeripheralVisionAngleDegrees = 180.0f;
 		SightConfig->SetMaxAge(5.0f);
-		SightConfig->AutoSuccessRangeFromLastSeenLocation = 900.0f;
+		SightConfig->AutoSuccessRangeFromLastSeenLocation = 2000.0f;
 		SightConfig->DetectionByAffiliation.bDetectEnemies = true;
 		SightConfig->DetectionByAffiliation.bDetectFriendlies = true;
 		SightConfig->DetectionByAffiliation.bDetectNeutrals = true;
