@@ -57,7 +57,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
 	int32 EnemyMoney = 20;
 
+	UPROPERTY(VisibleDefaultsOnly)
+	float CurrentHealth;
 
+	// 체력바 또는 UI를 표시할 WidgetComponent
+	UPROPERTY(EditAnywhere, Category = "UI")
+	class UWidgetComponent* HealthBarComponent;
 
 	// 데미지 받았을때 ?
 	UFUNCTION()

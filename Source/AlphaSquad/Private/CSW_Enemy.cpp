@@ -13,16 +13,24 @@
 #include "CSW_State_bAttack5.h"
 #include "CSW_State_Idle.h"
 #include "TimerManager.h"
-
 #include "NSK/TPSPlayer.h"
 #include "Kismet\GameplayStatics.h"
 
+#include "Components/WidgetComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "Components/ProgressBar.h"
 
 // Sets default values
 ACSW_Enemy::ACSW_Enemy()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	HealthBarComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("HealthBar"));
+	HealthBarComponent->SetupAttachment(RootComponent);
+	HealthBarComponent->SetDrawSize(FVector2D(200.0f, 50.0f));
+	HealthBarComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 130.0f));
+	HealthBarComponent->SetWidgetSpace(EWidgetSpace::Screen);
 }
 
 // Called when the game starts or when spawned
@@ -37,17 +45,27 @@ void ACSW_Enemy::BeginPlay()
 		UE_LOG(LogTemp, Warning, TEXT("Parsing Str : %s"), *str);
 	}
 
-	//State Mapping setting
-	StateMap.Add("A1", UCSW_State_Attack1::StaticClass());
-	StateMap.Add("A2", UCSW_State_Attack2::StaticClass());
-	StateMap.Add("A3", UCSW_State_Attack3::StaticClass());
-	StateMap.Add("Idle", UCSW_State_Idle::StaticClass());
+	CurrentHealth = Hp;
+
+	// hp 바
+	UUserWidget* Widget = HealthBarComponent->GetWidget();
+	if (Widget)
+	{
+		UProgressBar* HealthBar = Cast<UProgressBar>(Widget->GetWidgetFromName(TEXT("HP_Bar")));
+		if (HealthBar)
+		{
+			float healthpercentage = CurrentHealth / Hp;
+			HealthBar->SetPercent(healthpercentage);
+			HealthBar->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
 }
 
 // Called every frame
 void ACSW_Enemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 
 }
 
@@ -142,15 +160,16 @@ void ACSW_Enemy::ExcutePatternWithDelay(int32 PatternIndex)
 			UE_LOG(LogTemp, Warning, TEXT("Failed to create state for: %s"), *pattern);
 		}
 
+		
 		GetWorld()->GetTimerManager().SetTimer
 		(
 			TimerHandle,
 			this,
 			&ACSW_Enemy::OnPatternExcutionComplate,
 			MontageDuration,
-			false,
-			MontageDuration
+			false
 		);
+		
 	}
 }
 
@@ -169,6 +188,8 @@ void ACSW_Enemy::OnPatternExcutionComplate()
 	
 	if (ParsedPatterns.IsValidIndex(NextPatternIndex))
 	{
+		GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+
 		ExcutePatternWithDelay(NextPatternIndex);
 	}
 	else
@@ -203,11 +224,24 @@ void ACSW_Enemy::OnPatternExcutionComplate()
 
 void ACSW_Enemy::OnTakeDamage(float Damage)
 {
-	Hp -= Damage;
-	if (Hp <= 0)
+	CurrentHealth -= Damage;
+
+	UUserWidget* Widget = HealthBarComponent->GetWidget();
+	if (Widget)
+	{
+		UProgressBar* HealthBar = Cast<UProgressBar>(Widget->GetWidgetFromName(TEXT("HP_Bar")));
+		if (HealthBar)
+		{
+			float healthpercentage = CurrentHealth / Hp;
+			HealthBar->SetPercent(healthpercentage);
+			HealthBar->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
+
+
+	if (CurrentHealth <= 0)
 	{
 		auto* playerClass = Cast<ATPSPlayer>(UGameplayStatics::GetActorOfClass(GetWorld(), ATPSPlayer::StaticClass()));
-
 
 		if (playerClass)
 		{
@@ -215,8 +249,9 @@ void ACSW_Enemy::OnTakeDamage(float Damage)
 			playerClass->CurrentMoney += EnemyMoney;
 			Destroy();
 		}
-
 	}
+
+	CurrentHealth = FMath::Clamp(CurrentHealth - Damage, 0.0f, Hp);
 }
 
 TArray<FString> ACSW_Enemy::ParsePatternString(const FString& PatternString)
@@ -226,4 +261,6 @@ TArray<FString> ACSW_Enemy::ParsePatternString(const FString& PatternString)
 	PatternString.ParseIntoArray(m_ParsedPatterns, TEXT(","), true);
 	return m_ParsedPatterns;
 }
+
+
 

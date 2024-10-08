@@ -666,7 +666,11 @@ void ATPSPlayer::OnOverlapCapsule(UPrimitiveComponent* OverlappedComponent, AAct
 
 		bullet->Destroy();
 	}
-
+	else if(OtherActor->GetName().Contains(TEXT("BP_Explosion_Sand")))
+	{
+		hp -= 20;
+		UE_LOG(LogTemp, Display,  TEXT("Hit"));
+	}
 	// Damaged
 
 	if (hp <= 0)
