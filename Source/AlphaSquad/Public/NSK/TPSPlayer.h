@@ -70,6 +70,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	class UInputAction* SniperIA;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* HealingIA;
 	
 	UPROPERTY(BlueprintReadOnly, Category="Input")
 	bool bUsingGrenadeGun = true;
@@ -81,6 +84,7 @@ public:
 	void LookUp(const FInputActionValue& Value);
 	void Turn(const FInputActionValue& Value);
 	void TPSJump(const FInputActionValue& Value);
+	void Healing(const FInputActionValue& Value);
 
 	FVector MoveDirection;
 
@@ -144,6 +148,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float initialHp = 100;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	int32 KillCount = 0;
 
 	// GameOver
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Health")
