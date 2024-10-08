@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Particles/ParticleSystem.h"
+#include "Sound/SoundBase.h"
 
 void UCSW_ShootingAnimNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration, const FAnimNotifyEventReference& EventReference)
 {
@@ -21,12 +22,13 @@ void UCSW_ShootingAnimNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp,
             BulletClass = ActorManager->bulletActor;
             auto* m_bulletParticle = ActorManager->ammunition_effect;
 
-            UE_LOG(LogTemp, Warning, TEXT("bullet Actor Class retrieved successfully."));
             
             USkeletalMeshComponent* WeaponMeshComp = MeshComp->GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
 
             if (WeaponMeshComp)
             {
+
+
 				MeshComp->GetWorld()->SpawnActor<AActor>
 				(
 					BulletClass,
@@ -41,6 +43,7 @@ void UCSW_ShootingAnimNotifyState::NotifyBegin(USkeletalMeshComponent* MeshComp,
                     WeaponMeshComp->GetChildComponent(0)->GetSocketLocation(TEXT("FirePosition")),
                     WeaponMeshComp->GetChildComponent(0)->GetSocketRotation(TEXT("FirePosition"))
                 );
+
             }
 
         }

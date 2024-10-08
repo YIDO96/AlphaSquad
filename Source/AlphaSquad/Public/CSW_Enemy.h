@@ -50,10 +50,14 @@ public:
 	bool isBoss;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
-	float attackRang;
+	float attackRang = 2000;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
 	float Hp = 100;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
+	int32 EnemyMoney = 20;
+
+
 
 	// 데미지 받았을때 ?
 	UFUNCTION()

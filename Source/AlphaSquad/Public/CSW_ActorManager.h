@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Particles/ParticleSystem.h"
+#include "Sound/SoundBase.h"
 #include "CSW_ActorManager.generated.h"
 
 UCLASS()
@@ -27,6 +28,11 @@ public:
 	UPROPERTY(EditAnywhere,  Category = "Particles")
 	UParticleSystem* grenade_effect;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sound)
+	class USoundBase* bulletSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Sound)
+	class USoundBase* grenadeSound;
 
 protected:
 	// Called when the game starts or when spawned
