@@ -205,6 +205,8 @@ void ACSW_Enemy::OnPatternExcutionComplate()
 			float Dis = FVector::Dist(GetActorLocation(), player->GetActorLocation());
 			if (Dis < attackRang)
 			{
+				CurrentPatternIndex = 0;
+				
 				CombateStateExcute();
 			}
 			else
