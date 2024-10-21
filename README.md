@@ -2,7 +2,8 @@
 
 Developed with Unreal Engine 5 TPS Game for 3 weeks with 4 people
 3 months of studying for Unreal
-
+<div align="center">
+  
 1. Play Vidio Link(플레이 영상)
 https://youtu.be/1y3XUF_2T1Y
 
@@ -52,7 +53,10 @@ Player Role
 - 수류탄, 샷건, 라이플을 사용하는 다양한 적군
 
 9. Final Boss (마지막 보스)
+   
 ![image](https://github.com/user-attachments/assets/45f23c07-5ada-4b52-aa84-f20f11990f39)
 
 ![MultiPatton](https://github.com/user-attachments/assets/03bbed63-f306-443d-8d67-83a7b04c2502)
 - 다양한 패턴
+
+</div>
